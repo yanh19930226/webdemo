@@ -11,7 +11,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var IsAuthenticated = _httpcontext.HttpContext.User?.Identity?.IsAuthenticated ?? false;
             if (IsAuthenticated)
@@ -62,7 +62,12 @@
         {
             return View();
         }
-        
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
         public IActionResult Deny()
         {
             return View();

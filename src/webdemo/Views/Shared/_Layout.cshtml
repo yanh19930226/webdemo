@@ -1,79 +1,47 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>后台内容管理系统</title>
-    <meta name="description" content="mobile first, app, web app, responsive, admin dashboard, flat, flat ui">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/res/css/bootstrap.css">
-    <link rel="stylesheet" href="/res/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/res/css/style.css">
-    <link rel="stylesheet" href="/res/css/plugin.css">
-    <link rel="stylesheet" href="/res/sco/scojs.css">
-    <link href="/res/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/res/css/landing.css">
-    <script src="/res/js/jquery.js"></script>
-    <!-- datetimepicker -->
-    <script src="~/lib/datetimepicker/bootstrap-datetimepicker.js"></script>
-    <link href="~/lib/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet" />
-    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
-    <link href="~/lib/datepicker/datepicker3.css" rel="stylesheet" />
-    <!-- imageupload -->
-    <link href="~/lib/imageupload/1.0/css/imgup.css" rel="stylesheet" />
-    <script src="~/lib/imageupload/1.0/js/imgup.js?1=1"></script>
-    <script src="~/lib/imageupload/1.0/js/preview.js"></script>
-    <!-- fileinput -->
-    <link href="~/lib/fileinput/css/fileinput.css" rel="stylesheet" />
-    <script src="~/lib/fileinput/js/fileinput.js"></script>
-    <script src="~/lib/fileinput/js/locales/zh.js"></script>
-    <link href="/res/css/nstyle.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <title>Bootstrap 5 Admin Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+    <link href="~/assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" />
+    <script src="~/assets/js/config.js"></script>
+    <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <!-- header -->
-    @await Component.InvokeAsync("Header")
-    <!-- / header -->
+    <div class="wrapper">
+        <!-- header -->
+        @await Component.InvokeAsync("Header")
+        <!-- / header -->
 
-    <!-- menu -->
-    @await Component.InvokeAsync("Menu")
-    <!-- / menu -->
+        <!-- menu -->
+        @await Component.InvokeAsync("Menu")
+        <!-- / menu -->
 
-    <!-- content -->
-    <section id="content">
-        @RenderBody()
-    </section>
-    <!-- / content -->
+        <!-- content -->
+        <div class="content-page">
+            @RenderBody()
+        </div>
+        <!-- / content -->
 
-    <!-- footer -->
-    @await Component.InvokeAsync("Footer")
-    <!-- / footer -->
+        <!-- footer -->
+        @await Component.InvokeAsync("Footer")
+        <!-- / footer -->
+    </div>
 
-    <!-- Bootstrap -->
-    <script src="/res/js/bootstrap.js"></script>
-    <!-- app -->
-    <script src="/res/js/app.js"></script>
-    <script src="~/res/sco/sco.confirm.js?1=1" charset="GB2312"></script>
-    <script src="~/res/sco/sco.message.js" charset="GB2312"></script>
-    <script src="~/res/sco/sco.modal.js" charset="GB2312"></script>
-    <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="/res/js/box.js"></script>
-    <script src="/res/js/MainScript.js?1=1"></script>
-    <script src="~/res/js/initForm.js"></script>
+    <script src="~/assets/js/vendor.min.js"></script>
+    <script src="~/assets/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/assets/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/assets/js/pages/dashboard.js"></script>
+    <script src="~/assets/js/app.min.js"></script>
     @RenderSection("Scripts", required: false)
-    <script>
-        $(function () {
-            $(".datepicker").each(function () {
-
-                $(this).datepicker({
-                    language: 'zh-CN', //语言
-                    autoclose: true, //选择后自动关闭
-                    clearBtn: true,//清除按钮
-                    format: "yyyy-mm-dd"//日期格式
-                });
-            });
-        })
-    </script>
 </body>
 </html>
