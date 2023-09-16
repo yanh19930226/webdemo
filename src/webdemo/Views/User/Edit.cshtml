@@ -1,0 +1,57 @@
+﻿@model webdemo.Models.Dto.User.UserEditDto
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoEdit" id="newform" asp-controller="User" data-ajax-method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">用户名称</label>
+                    <div class="col-lg-8">
+                        <input asp-for="UserName" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="UserName" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">密码</label>
+                    <div class="col-lg-8">
+                        <input asp-for="Password" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Password" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">年龄</label>
+                    <div class="col-lg-8">
+                        <input asp-for="Age" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Age" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-9 col-offset-3">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <a type="submit" href="/User" class="btn btn-default">返回</a>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<script>
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            window.location = window.location;
+        } else {
+            $.tipsError(rv.message);
+        }
+    };
+
+    $(function () {
+        $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
+    })
+</script>

@@ -1,0 +1,42 @@
+﻿@*@model Xc.Tonglian.Web.Models.Dto.User.RegisterDto
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <form class="form-horizontal" data-ajax-complete="completed" asp-action="DoRegister" id="newform" asp-controller="Home">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">邮箱</label>
+                    <div class="col-lg-8">
+                        <input asp-for="Email" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Email" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">密码</label>
+                    <div class="col-lg-8">
+                        <input asp-for="Password" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Password" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">确认密码</label>
+                    <div class="col-lg-8">
+                        <input asp-for="ConfirmPassword" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"> </span>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+
+                    <div class="col-lg-9 col-offset-3">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+*@

@@ -1,0 +1,62 @@
+﻿@model PageResult<UserListVo>
+<div class="pull-out m-t-small">
+    @if (Model.Data.Count > 0)
+    {
+        <table class="table table-striped b-t text-small table-bordered">
+            <thead>
+                <tr>
+                    <th>用户名称</th>
+                    <th>用户密码</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Data)
+                {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.Password</td>
+                    <td>
+                        <a title="修改" data-src="/User/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
+                        <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <pager class="pager-container text-center" list="@Model.Data" options="@SitePagedListRenderOptions.Boostrap4CustomizedText" asp-action="Index" asp-controller="User" asp-route-query="@Model.FilterData" />
+    }
+    else
+    {
+        <div class="alert alert-warning alert-block none-alert">
+            <h4><i class="icon-bell-alt"></i>暂无数据!</h4>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    var Delete = function (id) {
+        $.confirm("您确定要删除吗？", function () {
+             $.ajax({
+                type: "GET",
+                url: "@Url.Action("Delete", "User")?Id=" + id,
+                success: function (data) {
+                    if (data) {
+                        $.tipsOk("操作成功!");
+                         setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                    }
+                    else {
+                        $.tipsError("删除失败!");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        })
+    };
+</script>
+
+
