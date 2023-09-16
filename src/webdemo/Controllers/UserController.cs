@@ -48,10 +48,7 @@ namespace webdemo.Controllers
         public ActionResult Edit(int Id)
         {
             var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
-
-            var viewModel = _mapper.Map<UserEditDto>(edit);
-
-            return View(viewModel);
+            return View(_mapper.Map<UserEditDto>(edit));
         }
         [HttpPost]
         public IActionResult DoEdit(UserEditDto dto)

@@ -13,30 +13,54 @@
                 <div class="card">
                     <div class="card-body">
                         <form asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
-                            <div class="row col-12">
-                                <div class="mb-2 row">
-                                    <label for="singledaterange" class="col-sm-1 col-form-label col-form-label-sm">创建时间</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" id="singledaterange" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label class="col-mb-1 col-form-label">关键字</label>
+                                    <div class="mb-3">
+                                        <input asp-for="@Model.Keyword" class="form-control" placeholder="用户名">
                                     </div>
                                 </div>
-                                <div class="mb-2 row">
-                                    <label for="inputState" class="col-sm-1 col-form-label">状态</label>
-                                    <div class="col-sm-2">
-                                        <select id="inputState" class="form-select">
+                                <div class="col-lg-3">
+                                    <label class="col-mb-1 col-form-label">创建时间</label>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="col-mb-1 col-form-label">状态</label>
+                                    <div class="mb-3">
+                                        <select class="form-select">
                                             <option>Option 1</option>
                                             <option>Option 2</option>
                                             <option>Option 3</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mb-3 col-md-12">
-                                    <div class="input-group">
-                                        <input asp-for="@Model.Keyword" class="form-control" placeholder="用户名">
-                                        <span class="input-group-append">
-                                            <button type="submit" class="btn btn-primary rounded-start-0"><i class="ri-search-line fs-16"></i></button>
-                                        </span>
+                                <div class="col-lg-3">
+                                    <label class="col-mb-1 col-form-label">状态</label>
+                                    <div class="mb-3">
+                                        <select class="form-select">
+                                            <option>Option 1</option>
+                                            <option>Option 2</option>
+                                            <option>Option 3</option>
+                                        </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row col-lg-12">
+                                <div class="d-flex justify-content-end align-items-center gap-2">
+                                    <button type="button" class="btn btn-soft-info">
+                                        <i class="ri-check-double-fill fs-18 me-1 lh-1"></i>
+                                        添加
+                                    </button>
+                                    <button type="submit" class="btn btn-soft-danger">
+                                        <i class="ri-settings-2-line align-text-bottom me-1 fs-16 lh-1"></i>
+                                        搜索
+                                    </button>
+                                    <button type="button" class="btn btn-soft-danger">
+                                        <i class="ri-settings-2-line align-text-bottom me-1 fs-16 lh-1"></i>
+                                        重置
+                                    </button>
                                 </div>
                             </div>
                         </form>
