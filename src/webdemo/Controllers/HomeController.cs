@@ -58,6 +58,11 @@
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Pwd()
+        {
+            return View();
+        }
+        
         public IActionResult Deny()
         {
             return View();

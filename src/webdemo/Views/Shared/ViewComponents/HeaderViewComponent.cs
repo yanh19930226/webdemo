@@ -1,13 +1,14 @@
-﻿namespace webdemo.ViewComponents
+﻿namespace webdemo.Views.Shared.ViewComponents
 {
-    public class MenuViewComponent : ViewComponent
+    public class HeaderViewComponent : ViewComponent
     {
-        public MenuViewComponent()
+        public HeaderViewComponent()
         {
-            
+
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
+
             return View();
         }
     }

@@ -1,0 +1,26 @@
+﻿@model List<webdemo.Models.Vo.Menu.MenuVo>
+<nav id="nav" class="nav-primary visible-lg nav-vertical">
+    <ul class="nav" data-spy="affix" data-offset-top="50">
+        @{
+            var parents = Model.Where(p => p.ParentId == 0);
+        }
+        @foreach (var parent in parents)
+        {
+            <li class="dropdown-submenu">
+                <a resmenu href="#"><i class="icon-list icon-xlarge"></i>@parent.Name</a>
+                @{
+                    var childs = Model.Where(p => p.ParentId == parent.Id);
+                }
+                @if (childs.Any())
+                {
+                    <ul class="dropdown-menu">
+                        @foreach (var item in childs)
+                        {
+                            <li><a href="@Url.Content(item.Url)">@item.Name</a></li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</nav>
