@@ -1,5 +1,4 @@
 ﻿@model UserSearch
-
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -9,14 +8,29 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <form asp-action="DoList" id="searchForm" asp-controller="User" data-ajax="true" data-ajax-update="#divlist" data-ajax-mode="replace" data-ajax-method="post">
-                                <div class="col-lg-8">
+                        <form asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
+                            <div class="row col-12">
+                                <div class="mb-2 row">
+                                    <label for="singledaterange" class="col-sm-1 col-form-label col-form-label-sm">创建时间</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" id="singledaterange" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning">
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <label for="inputState" class="col-sm-1 col-form-label">状态</label>
+                                    <div class="col-sm-2">
+                                        <select id="inputState" class="form-select">
+                                            <option>Option 1</option>
+                                            <option>Option 2</option>
+                                            <option>Option 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-md-12">
                                     <div class="input-group">
                                         <input asp-for="@Model.Keyword" class="form-control" placeholder="用户名">
                                         <span class="input-group-append">
@@ -24,14 +38,13 @@
                                         </span>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div id="divlist" class="row">
+        <div id="list" class="row">
             @Html.Action("DoList", Model)
         </div>
     </div>
