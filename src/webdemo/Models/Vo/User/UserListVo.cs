@@ -19,5 +19,10 @@
         /// 
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Age { get; set; }
     }
 }

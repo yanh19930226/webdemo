@@ -9,8 +9,9 @@
                     <thead class="table-light">
                         <tr>
                             <th>用户名</th>
-                            <th data-priority="1">密码</th>
-                            <th data-priority="3">年龄</th>
+                            <th>密码</th>
+                            <th>年龄</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,6 +20,7 @@
                             <tr>
                                 <td>@item.UserName</td>
                                 <td>@item.Password</td>
+                                <td>@item.Age</td>
                                 <td>
                                     <button type="button" title="修改" data-css="modal-lg" data-src="@Url.Action("Edit","User")?Id=@item.Id" class="btn btn-outline-primary">修改</button>
                                     <button type="button" class="btn btn-outline-secondary" onclick="Delete(@item.Id)">删除</button>
