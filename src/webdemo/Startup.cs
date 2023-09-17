@@ -1,3 +1,5 @@
+using Webdiyer.AspNetCore;
+
 namespace webdemo
 {
     public class Startup
@@ -49,6 +51,7 @@ namespace webdemo
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddControllersWithViews();
+            services.UseMvcCorePagerScripts();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

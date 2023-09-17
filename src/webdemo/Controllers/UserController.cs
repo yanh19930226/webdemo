@@ -1,4 +1,5 @@
-﻿using webdemo.Services;
+﻿using System.Drawing.Printing;
+using webdemo.Services;
 
 namespace webdemo.Controllers
 {
@@ -13,18 +14,34 @@ namespace webdemo.Controllers
             _mapper = mapper;
             _userService= userService;
         }
-        public IActionResult Index(UserSearch userSearch)
+        public IActionResult Index(UserSearch userSearch, int pageIndex, int pageSize)
         {
-            return View(userSearch);
+            //return View(userSearch);
+            var where = PredicateBuilder.True<User>();
+            where = where.WhereIf(true, p => p.IsDel == false)
+                         .WhereIf(!string.IsNullOrEmpty(userSearch.Keyword), p => p.UserName.Contains(userSearch.Keyword));
+            var result = _userService.GetPageResult(userSearch);
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_PagedData", result);
+            }
+            return View(result);
+
         }
-        public IActionResult DoList(UserSearch userSearch)
+        public IActionResult DoList(UserSearch userSearch,int pageIndex, int pageSize)
         {
             var where = PredicateBuilder.True<User>();
             where = where.WhereIf(true,p=>p.IsDel==false)
                          .WhereIf(!string.IsNullOrEmpty(userSearch.Keyword),p => p.UserName.Contains(userSearch.Keyword));
             var result = _userService.GetPageResult(userSearch);
-          
-            return PartialView(result);
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("DoList", result);
+            }
+            return View(result);
+
         }
         public IActionResult Add()
         {
