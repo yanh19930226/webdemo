@@ -28,7 +28,8 @@ namespace webdemo.Controllers
         }
         public IActionResult Add()
         {
-            return View();
+            UserCreateDto userCreateDto = new UserCreateDto();
+            return View(userCreateDto);
         }
         [HttpPost]
         public IActionResult DoAdd(UserCreateDto dto)
@@ -45,7 +46,7 @@ namespace webdemo.Controllers
             }
             return Ok(result);
         }
-        public ActionResult Edit(int Id)
+        public IActionResult Edit(int Id)
         {
             var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
             return View(_mapper.Map<UserEditDto>(edit));

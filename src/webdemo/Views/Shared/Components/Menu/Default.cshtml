@@ -35,7 +35,6 @@
                     <div class="collapse" id="@parent.Id">
                         @{
                             var childs = Model.Where(p => p.ParentId == parent.Id);
-
                             <ul class="side-nav-second-level">
                                 @foreach (var item in childs)
                                 {

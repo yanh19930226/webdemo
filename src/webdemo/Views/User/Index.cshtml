@@ -12,24 +12,18 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
+                        <form id="searchForm" asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <label class="col-mb-1 col-form-label">关键字</label>
+                                    <label asp-for="@Model.Keyword" class="col-mb-1 col-form-label">关键字</label>
                                     <div class="mb-3">
-                                        <input asp-for="@Model.Keyword" class="form-control" placeholder="用户名">
+                                        <input asp-for="@Model.Keyword" class="form-control" placeholder="用户名" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <label class="col-mb-1 col-form-label">创建时间</label>
+                                    <label for="inputState1" class="col-mb-1 col-form-label">状态</label>
                                     <div class="mb-3">
-                                        <input type="text" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="col-mb-1 col-form-label">状态</label>
-                                    <div class="mb-3">
-                                        <select class="form-select">
+                                        <select id="inputState1" class="form-select">
                                             <option>Option 1</option>
                                             <option>Option 2</option>
                                             <option>Option 3</option>
@@ -37,28 +31,34 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <label class="col-mb-1 col-form-label">状态</label>
+                                    <label for="inputState2" class="col-mb-1 col-form-label">状态</label>
                                     <div class="mb-3">
-                                        <select class="form-select">
+                                        <select id="inputState2" class="form-select">
                                             <option>Option 1</option>
                                             <option>Option 2</option>
                                             <option>Option 3</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="col-mb-1 col-form-label" for="createDate">创建时间</label>
+                                    <div class="mb-3">
+                                        <input id="createDate" type="text" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
                             <div class="row col-lg-12">
                                 <div class="d-flex justify-content-end align-items-center gap-2">
-                                    <button type="button" class="btn btn-soft-info">
-                                        <i class="ri-check-double-fill fs-18 me-1 lh-1"></i>
+                                    <button type="button" class="btn btn-outline-primary" title="添加" data-css="modal-lg" data-src="@Url.Action("Add","User")">
+                                        <i class="ri-add-fill fs-18 me-1 lh-1"></i>
                                         添加
                                     </button>
-                                    <button type="submit" class="btn btn-soft-danger">
-                                        <i class="ri-settings-2-line align-text-bottom me-1 fs-16 lh-1"></i>
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        <i class="ri-search-line search-icon fs-15 me-1 lh-1"></i>
                                         搜索
                                     </button>
-                                    <button type="button" class="btn btn-soft-danger">
-                                        <i class="ri-settings-2-line align-text-bottom me-1 fs-16 lh-1"></i>
+                                    <button type="reset" class="btn btn-outline-primary">
+                                        <i class="ri-refresh-line align-text-bottom me-1 fs-16 lh-1"></i>
                                         重置
                                     </button>
                                 </div>
