@@ -27,3 +27,11 @@ global using System.Collections.Generic;
 global using System.Security.Claims;
 global using System.Text;
 global using webdemo.Infrastructure.Extension;
+global using Webdiyer.AspNetCore;
+global using webdemo.Models.Vo;
+global using webdemo.Services;
+global using System.IO;
+global using System.ComponentModel.DataAnnotations;
+
+
+

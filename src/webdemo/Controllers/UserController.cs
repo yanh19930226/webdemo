@@ -1,48 +1,27 @@
-﻿using System.Drawing.Printing;
-using webdemo.Services;
-
-namespace webdemo.Controllers
+﻿namespace webdemo.Controllers
 {
     public class UserController : Controller
     {
         private DemoDbContext _dbContext;
-        private readonly IMapper _mapper;
-        private readonly IUserService _userService;
+        private IMapper _mapper;
+        private IUserService _userService;
         public UserController(DemoDbContext dbContext, IMapper mapper, IUserService userService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _userService= userService;
         }
-        public IActionResult Index(UserSearch userSearch, int pageIndex, int pageSize)
+
+        public IActionResult Index(UserSearch userSearch)
         {
-            //return View(userSearch);
-            var where = PredicateBuilder.True<User>();
-            where = where.WhereIf(true, p => p.IsDel == false)
-                         .WhereIf(!string.IsNullOrEmpty(userSearch.Keyword), p => p.UserName.Contains(userSearch.Keyword));
-            var result = _userService.GetPageResult(userSearch);
-
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return PartialView("_PagedData", result);
-            }
-            return View(result);
-
+            return View(userSearch);
         }
-        public IActionResult DoList(UserSearch userSearch,int pageIndex, int pageSize)
+        public IActionResult DoList(UserSearch userSearch) 
         {
-            var where = PredicateBuilder.True<User>();
-            where = where.WhereIf(true,p=>p.IsDel==false)
-                         .WhereIf(!string.IsNullOrEmpty(userSearch.Keyword),p => p.UserName.Contains(userSearch.Keyword));
             var result = _userService.GetPageResult(userSearch);
-
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return PartialView("DoList", result);
-            }
-            return View(result);
-
+            return PartialView(result);
         }
+
         public IActionResult Add()
         {
             UserCreateDto userCreateDto = new UserCreateDto();
@@ -63,6 +42,7 @@ namespace webdemo.Controllers
             }
             return Ok(result);
         }
+
         public IActionResult Edit(int Id)
         {
             var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
@@ -88,6 +68,7 @@ namespace webdemo.Controllers
 
             return Ok(result);
         }
+
         public IActionResult Delete(int Id)
         {
             DemoResult result = new DemoResult();

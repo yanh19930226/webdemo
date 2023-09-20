@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace webdemo.Models.Dto.User
+﻿namespace webdemo.Models.Dto.User
 {
     public class UserCreateDto
     {

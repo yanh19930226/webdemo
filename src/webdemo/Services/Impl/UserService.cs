@@ -1,49 +1,38 @@
-﻿using NuGet.Packaging.Signing;
-//using PagedList.Core;
-using System.Drawing.Printing;
-using webdemo.Models.Vo;
-using Webdiyer.AspNetCore;
-
-namespace webdemo.Services.Impl
+﻿namespace webdemo.Services.Impl
 {
     public class UserService : IUserService
     {
-        private DemoDbContext _dbContext;
         private IMapper _mapper;
-        public UserService(DemoDbContext dbContext, IMapper mapper)
+        private DemoDbContext _dbContext;
+        private Microsoft.AspNetCore.Hosting.IHostingEnvironment Env;
+        public UserService(IMapper mapper,DemoDbContext dbContext, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
-            _dbContext= dbContext;
-            _mapper= mapper;
+            _mapper = mapper;
+            _dbContext = dbContext;
+            Env = env;
         }
-
-        //public PageResult<UserListVo> GetPageResult(UserSearch search)
-        //{
-        //    PageResult<UserListVo> pageResult = new PageResult<UserListVo>();
-            
-        //    var where = PredicateBuilder.True<User>()
-        //                 .WhereIf(true, p => p.IsDel == false)
-        //                 .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.UserName.Contains(search.Keyword));
-
-        //    var total = _dbContext.User.Where(where).Count();
-        //    var result = _dbContext.User.Where(where).Skip((search.Page - 1) * search.PageSize).Take(search.PageSize).Select(p=>_mapper.Map<UserListVo>(p));
-
-        //    pageResult.FilterData = search;
-        //    pageResult.Data = new StaticPagedList<UserListVo>(result, search.Page, search.PageSize, total);
-
-        //    return pageResult;
-        //}
-
 
         public IPagedList<UserListVo> GetPageResult(UserSearch search)
         {
-
             var where = PredicateBuilder.True<User>()
                          .WhereIf(true, p => p.IsDel == false)
                          .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.UserName.Contains(search.Keyword));
 
             var result = _dbContext.User.Where(where).Select(p => _mapper.Map<UserListVo>(p));
 
-            return result.ToPagedList(search.Page, search.PageSize);
+            return result.ToPagedList(search.PageIndex, search.PageSize);
+        }
+
+
+        public IPagedList<Order> GetPagedOrders(int pageIndex, int pageSize, string companyName = null)
+        {
+            var path = Path.Combine(Env.WebRootPath, "orders.json");
+            var ods = Newtonsoft.Json.JsonConvert.DeserializeObject<Order[]>(System.IO.File.ReadAllText(path));
+            if (!string.IsNullOrWhiteSpace(companyName))
+            {
+                return ods.Where(o => o.CompanyName.Contains(companyName)).OrderBy(o => o.OrderId).ToPagedList(pageIndex, pageSize);
+            }
+            return ods.OrderBy(o => o.OrderId).ToPagedList(pageIndex, pageSize);
         }
     }
 }

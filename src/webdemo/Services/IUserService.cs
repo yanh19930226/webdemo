@@ -1,12 +1,9 @@
-﻿using webdemo.Models.Vo;
-using Webdiyer.AspNetCore;
-
-namespace webdemo.Services
+﻿namespace webdemo.Services
 {
     public interface IUserService
     {
-        //PageResult<UserListVo> GetPageResult(UserSearch search);
-
         IPagedList<UserListVo> GetPageResult(UserSearch search);
+
+        IPagedList<Order> GetPagedOrders(int pageIndex, int pageSize, string companyName = null);
     }
 }

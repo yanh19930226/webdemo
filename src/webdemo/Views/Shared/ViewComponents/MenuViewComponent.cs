@@ -27,7 +27,23 @@ namespace webdemo.Views.Shared.ViewComponents
                    Name = "用户管理",
                    Url = "/User",
                },
-                 new MenuVo()
+               new MenuVo()
+               {
+                   Id=5,
+                   ParentId=1,
+                   Type=2,
+                   Name = "分页测试",
+                   Url = "/PageDemo",
+               },
+               new MenuVo()
+               {
+                   Id=6,
+                   ParentId=1,
+                   Type=2,
+                   Name = "Partial分页测试",
+                   Url = "/PageDemo/PartialIndex",
+               },
+               new MenuVo()
                {
                    Id=3,
                    ParentId=0,

@@ -1,6 +1,4 @@
-﻿@*@model UserSearch*@
-@using Webdiyer.AspNetCore;
-@model PagedList<UserListVo>
+﻿@model UserSearch
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -14,14 +12,15 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="searchForm" asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
+                          <form id="searchForm">
+                        @*<form id="searchForm" asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">*@
                             <div class="row">
-                              @*  <div class="col-lg-3">
+                                <div class="col-lg-3">
                                     <label asp-for="Keyword" class="col-mb-1 col-form-label">关键字</label>
                                     <div class="mb-3">
                                         <input asp-for="Keyword" class="form-control" placeholder="用户名" autocomplete="off">
                                     </div>
-                                </div>*@
+                                </div>
                                 <div class="col-lg-3">
                                     <label for="inputState1" class="col-mb-1 col-form-label">状态</label>
                                     <div class="mb-3">
@@ -70,11 +69,8 @@
                 </div>
             </div>
         </div>
-        <partial name="_PagedData" model="@Model" />
-        @*@Html.Action("DoList", Model)*@
-
+        <div class="row" id="table-container">
+            @Html.Action("DoList", Model)
+        </div>
     </div>
 </div>
-@section Scripts{
-    <script src="~/js/MvcCorePager/MvcCorePager.js" asp-append-version="true"></script>
-}
