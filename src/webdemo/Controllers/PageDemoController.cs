@@ -8,6 +8,8 @@
             _userService= userService;
         }
 
+        #region 第一种写法
+
         public IActionResult Index(PageDemoSearch demoSearch)
         {
             demoSearch.PageIndex = 1;
@@ -21,6 +23,10 @@
             return PartialView(model);
         }
 
+        #endregion
+
+        #region 第二种写法
+
         public IActionResult PartialIndex(string companyName, int PageIndex = 1)
         {
             var model = _userService.GetPagedOrders(PageIndex, 5, companyName);
@@ -30,5 +36,16 @@
             }
             return View(model);
         }
+
+        #endregion
+
+        #region 第三种写法
+
+        public IActionResult AjaxIndex(string companyName, int PageIndex = 1)
+        {
+            return View();
+        }
+
+        #endregion
     }
 }
