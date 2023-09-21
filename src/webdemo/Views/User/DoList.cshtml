@@ -30,22 +30,21 @@
                 </table>
             </div>
             <div class="card-footer">
-                <nav aria-label="Page navigation">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <mvcpager asp-model="@Model" ajax-enabled="true" ajax-update-target="table-container" ajax-method="post"
-                                      page-index-parameter-name="PageIndex" tag-name="ul"
-                                      class="pagination pagination-sm"
-                                      ajax-search-form="searchForm"
-                                      current-pager-item-template='<li class="page-item active"><a class="page-link" href="javascript:void(0);">{0}</a></li>'
-                                      disabled-pager-item-template='<li class="page-item disabled"><a class="page-link">{0}</a></li>'
-                                      pager-item-template='<li class="page-item">{0}</li>' pager-item-css-class="page-link"
-                                      page-index-box-id="inputPageIndex"
-                                      go-to-button-id="btnGoto">
-                            </mvcpager>
-                        </div>
-                    </div>
-                </nav>
+                    <mvcpager asp-model="@Model" ajax-enabled="true" ajax-update-target="table-container" ajax-method="post"
+                              page-index-parameter-name="PageIndex" tag-name="ul"
+                              last-page-text="尾页"
+                              first-page-text="首页"
+                              next-page-text="下一页"
+                              prev-page-text="上一页"
+                              maximum-page-index-items="8"
+                              class="justify-content-center pagination pagination-rounded mb-0"
+                              ajax-search-form="searchForm"
+                              current-pager-item-template='<li class="page-item active"><a class="page-link" href="javascript:void(0);">{0}</a></li>'
+                              disabled-pager-item-template='<li class="page-item disabled"><a class="page-link">{0}</a></li>'
+                              pager-item-template='<li class="page-item">{0}</li>' pager-item-css-class="page-link"
+                              page-index-box-id="inputPageIndex"
+                              go-to-button-id="btnGoto">
+                    </mvcpager>
             </div>
         </div>
     </div>
