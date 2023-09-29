@@ -1,4 +1,6 @@
-﻿namespace webdemo.Services.Impl
+﻿using Webdiyer.AspNetCore;
+
+namespace webdemo.Services.Impl
 {
     public class UserService : IUserService
     {

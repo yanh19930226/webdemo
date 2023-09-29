@@ -12,8 +12,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                          <form id="searchForm">
-                        @*<form id="searchForm" asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">*@
+                        <form id="searchForm" asp-action="DoList" asp-controller="User" data-ajax="true" data-ajax-update="#list" data-ajax-mode="replace" data-ajax-method="post">
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label asp-for="Keyword" class="col-mb-1 col-form-label">关键字</label>
@@ -47,6 +46,11 @@
                                         <input id="createDate" type="text" class="form-control date" data-toggle="date-picker" data-cancel-class="btn-warning" autocomplete="off">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <datetimerange label="支付时间" asp-start-for="@Model.StartDate" asp-end-for="@Model.EndDate"></datetimerange>
+                                </div>
+
                             </div>
                             <div class="row col-lg-12">
                                 <div class="d-flex justify-content-end align-items-center gap-2">

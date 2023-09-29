@@ -14,6 +14,8 @@
 
         public IActionResult Index(UserSearch userSearch)
         {
+            userSearch.StartDate = DateTime.Now.AddDays(-7);
+            userSearch.EndDate = DateTime.Now;
             return View(userSearch);
         }
         public IActionResult DoList(UserSearch userSearch) 
