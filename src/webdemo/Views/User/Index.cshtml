@@ -37,27 +37,30 @@
                                         <datetimerange label="测试时间" asp-start-for="@Model.StartDate" asp-end-for="@Model.EndDate"></datetimerange>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row col-lg-12">
-                                <div class="d-flex justify-content-end align-items-center gap-2">
-                                    <button type="button" class="btn btn-outline-primary" title="添加" data-css="modal-lg" data-src="@Url.Action("Add","User")">
-                                        添加
-                                    </button>
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        搜索
-                                    </button>
-                                    <button type="reset" class="btn btn-outline-primary">
-                                        重置
-                                    </button>
+                                <div class="row col-lg-12">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-end align-items-center gap-2">
+                                            <button type="button" class="btn btn-outline-primary" title="添加" data-css="modal-lg" data-src="@Url.Action("Add","User")">
+                                                添加
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-primary">
+                                                搜索
+                                            </button>
+                                            <button type="reset" class="btn btn-outline-primary">
+                                                重置
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                           
                         </form>
+                    </div>
+                    <div id="table-container">
+                        @Html.Action("DoList", Model)
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row" id="table-container">
-            @Html.Action("DoList", Model)
         </div>
     </div>
 </div>
