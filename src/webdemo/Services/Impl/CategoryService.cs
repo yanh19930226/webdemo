@@ -93,6 +93,13 @@ FROM t
 
         public List<CategoryVo> GetCategoryList(int serviceId)
         {
+            var queryText = string.Empty;
+
+            if (serviceId>0)
+            {
+                queryText = " AND service_id=@ServiceId";
+            }
+
             var cmdText = $@"
 WITH RECURSIVE cte_child (service_id, id, category_name, parent_id, sort, status, LEVEL) AS (
 		SELECT service_id, id, category_name, parent_id, sort, status, 1 AS LEVEL
@@ -106,10 +113,10 @@ WITH RECURSIVE cte_child (service_id, id, category_name, parent_id, sort, status
 	)
 SELECT *
 FROM cte_child
-WHERE service_id = @ServiceId
+WHERE 1=1
+{queryText}
 	AND status = 0
-ORDER BY sort DESC, id ASC
-            ";
+ORDER BY sort DESC, id ASC";
 
             var result = _sqlSugarClient.Ado.SqlQuery<CategoryVo>(cmdText, new
             {
