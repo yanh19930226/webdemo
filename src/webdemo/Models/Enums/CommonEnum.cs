@@ -27,4 +27,35 @@ namespace webdemo.Models.Enums
         [Description("审核失败")]
         Failed = 2
     }
+
+    /// <summary>
+    /// 菜单类型
+    /// </summary>
+    public enum MenuTypeEnum
+    {
+        /// <summary>
+        /// 菜单
+        /// </summary>
+        [Description("菜单")]
+        Menu = 1,
+        /// <summary>
+        /// 链接
+        /// </summary>
+        [Description("链接")]
+        Link = 2,
+        /// <summary>
+        /// 按钮
+        /// </summary>
+        [Description("按钮")]
+        Button = 3
+    }
+
+    /// <summary>
+    /// 服务来源
+    /// </summary>
+    public enum 服务来源
+    {
+        Douyin,
+        Xiaohongshu
+    }
 }

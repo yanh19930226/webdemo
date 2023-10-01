@@ -1,4 +1,6 @@
-﻿namespace webdemo.Models.Vo.User
+﻿using webdemo.Models.Enums;
+
+namespace webdemo.Models.Vo.User
 {
     public class UserSearch:Search
     {

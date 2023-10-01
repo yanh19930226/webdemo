@@ -1,4 +1,6 @@
-﻿namespace webdemo.Models.Dto.User
+﻿using webdemo.Models.Enums;
+
+namespace webdemo.Models.Dto.User
 {
     public class UserCreateDto
     {

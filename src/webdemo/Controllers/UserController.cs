@@ -1,4 +1,6 @@
-﻿namespace webdemo.Controllers
+﻿using webdemo.Models.Domain.System;
+
+namespace webdemo.Controllers
 {
     public class UserController : Controller
     {

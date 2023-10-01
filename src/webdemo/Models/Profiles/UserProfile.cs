@@ -1,4 +1,6 @@
-﻿namespace webdemo.Models.Profiles
+﻿using webdemo.Models.Domain.System;
+
+namespace webdemo.Models.Profiles
 {
     public class UserProfile : Profile
     {
