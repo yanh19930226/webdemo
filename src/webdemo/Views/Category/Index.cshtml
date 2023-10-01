@@ -1,0 +1,132 @@
+﻿<section class="content pt-2">
+    <div class="container-fluid">
+        <form id="search-form">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        @Html.DropDownList("serviceId",HtmlHelperExtensions.GetService(),new { @class = "form-control select",onchange="change()"})
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary btn-sm add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("CreateCategory","Category")?serviceId=1&parentId=0">添加一级菜单</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="loadData()">查询</button>
+                </div>
+            </div>
+        </form>
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <table class="table table-striped  table-new" id="tableid">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var treeTable = $('#tableid').bootstrapTreeTable({
+        method: "GET",
+        url: "@Url.Action("GetCategoryList","Category")",
+        ajaxParams: { serviceId: $("#serviceId").val() },
+        rightToolbar: "#rightToolbar",
+        expandColumn: 0,
+        showBatchSort: false,
+        hierarchical: true,
+        showCheckAll: true,
+        columns: [{
+            title: '菜单名称',
+            field: 'categoryName',
+            width: '150',
+            formatter: function (value, row, index) {
+                return row.categoryName;
+            }
+        },
+        {
+            field: 'sort',
+            title: '排序',
+            width: '150',
+            valign: "bottom",
+            cssClass: 'my-seq hidden-xs', // 新加的属性
+            visible: true
+        },
+        {
+            title: '操作',
+            cssClass: 'yn-tools sm',
+            formatter: function (value, row, index) {
+
+                if (row.level != 3) {
+                    let actions = `
+                                                      <div>
+                                                              <button type="button" class="btn btn-primary btn-sm" title="添加子菜单" data-css="modal-lg" data-src="/HelpCenter/CreateCategory?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
+                                                              <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/HelpCenter/EditCategory?categoryId=`+ row.id + `">修改</button>
+                                                              <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
+                                                      </div>
+                                                    `;
+                    return actions;
+                } else {
+                    let actions = `
+                                                          <div>
+                                                                  <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/HelpCenter/EditCategory?categoryId=`+ row.id + `">修改</button>
+                                                                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
+                                                          </div>
+                                                        `;
+                    return actions;
+                }
+            }
+        }],
+        onLoadComplete: function () {
+        },
+        onLoadSuccess: function (data) {
+            console.log("onLoadSuccess");
+            return false;
+        },
+        onClickRow: function (row, $element) {
+            console.log("onClickRow", row);
+            console.log("element", $element);
+            return false;
+        }
+    });
+
+    var loadData = function () {
+        $('#tableid').bootstrapTreeTable('refresh', { serviceId: $("#serviceId").val() });
+    };
+
+    var deleteMenu = function (categoryId, categoryName, level) {
+        debugger;
+        let confirmmsg = "您确定要删除吗";
+        switch (level) {
+            case 1:
+                confirmmsg = "您确定要删除一级菜单" + categoryName + "吗?删除后下属二三级菜单也将同时删除!";
+            case 2:
+                confirmmsg = "您确定要删除二级菜单" + categoryName + "吗?删除后下属三级菜单也将同时删除!";
+            case 3:
+                confirmmsg = "您确定要删除子菜单" + categoryName + "吗?";
+        }
+        $.confirm(confirmmsg, function () {
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("DeleteCategory", "Category")?categoryId=" + categoryId,
+                success: function (data) {
+                    if (data) {
+                        $.tipsOk("操作成功!");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        $.tipsError("删除失败!");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        })
+    };
+
+    var change = function () {
+        $(".add").attr("data-src", "/Category/CreateCategory?serviceId=" + $("#serviceId").val() + "&parentId=0");
+    };
+</script>

@@ -1,4 +1,5 @@
-﻿using NuGet.Protocol.Core.Types;
+﻿using Microsoft.CodeAnalysis.Differencing;
+using NuGet.Protocol.Core.Types;
 using webdemo.Models.Dto.Category;
 using webdemo.Models.Vo.Category;
 
@@ -64,37 +65,24 @@ FROM t
         /// </summary>
         /// <param name="categoryIdList"></param>
         /// <returns></returns>
-        public int DeleteCategory(List<long> categoryIdList)
+        private int DeleteCategory(List<long> categoryIdList)
         {
-            //            if (categoryIdList == null || categoryIdList.Count == 0)
-            //            {
-            //                return 0;
-            //            }
+            if (categoryIdList == null || categoryIdList.Count == 0)
+            {
+                return 0;
+            }
 
-            //            var parameters = new
-            //            {
-            //                CategoryIds = string.Join(",", categoryIdList)
-            //            };
+            var cmdText = $@"
+            UPDATE [Article]
+            SET [Status] = 0
+            WHERE CategoryId IN ({string.Join(",", categoryIdList)})";
+            _dbContext.Database.ExecuteSqlRaw(cmdText);
 
-            //            var cmdText = $@"
-            //UPDATE [HelpArticle]
-            //SET [Status] = 0
-            //WHERE CategoryId IN (
-            //		SELECT *
-            //		FROM SplitInt32Table(@CategoryIds, ','))";
-            //            _repository.Execute(cmdText, parameters);
+            cmdText = $@"
+            DELETE FROM [Category]
+            WHERE CategoryId IN ({string.Join(",", categoryIdList)})";
 
-            //            cmdText = $@"
-            //DELETE FROM [HelpCategory]
-            //WHERE CategoryId IN (
-            //		SELECT *
-            //		FROM SplitInt32Table(@CategoryIds, ','))
-            //            ";
-
-            //            return _repository.Execute(cmdText, parameters);
-
-
-            return 1;
+            return _dbContext.Database.ExecuteSqlRaw(cmdText);
         }
 
         public Category GetCategory(long categoryId)
@@ -105,20 +93,20 @@ FROM t
         public List<CategoryVo> GetCategoryList(int serviceId)
         {
             var cmdText = $@"
-WITH CTE_CHILD (ServiceId, Id, CategoryName, ParentId, Sort, [Status], [Level]) AS (
-		SELECT ServiceId, Id, CategoryName, ParentId, Sort, [Status], 1 AS [Level]
-		FROM [Category]
+WITH RECURSIVE CTE_CHILD (Id, ServiceId, CategoryName, ParentId, Sort, STATUS, LEVEL) AS (
+		SELECT ServiceId, Id, CategoryName, ParentId, Sort, STATUS, 1 AS LEVEL
+		FROM Category
 		WHERE ParentId = 0
 		UNION ALL
-		SELECT A.ServiceId, A.Id, A.CategoryName, A.ParentId, A.Sort
-			, A.[Status], B.[Level] + 1
-		FROM [Category] A
+		SELECT A.Id, A.ServiceId, A.CategoryName, A.ParentId, A.Sort
+			, A.Status, B.Level + 1
+		FROM Category A
 			INNER JOIN CTE_CHILD B ON A.ParentId = B.Id
 	)
 SELECT *
 FROM CTE_CHILD
 WHERE ServiceId = @ServiceId
-	AND [Status] = 1
+	AND STATUS = 1
 ORDER BY Sort DESC, Id ASC
             ";
 
@@ -139,8 +127,8 @@ ORDER BY Sort DESC, Id ASC
         {
             DemoResult result = new DemoResult();
             Category category = new Category();
+            _mapper.Map<CreateCategoryVo>(category);
             category.CreateTime = DateTime.Now;
-
             _dbContext.Add(category);
             if (_dbContext.SaveChanges() > 0)
             {
@@ -152,11 +140,12 @@ ORDER BY Sort DESC, Id ASC
             }
             return result;
         }
+
         public DemoResult EditCategory(CreateCategoryVo createCategoryVo)
         {
             DemoResult result = new DemoResult();
             var category = _dbContext.Category.FirstOrDefault(c => c.Id == createCategoryVo.CategoryId);
-
+            _mapper.Map<CreateCategoryVo>(category);
             _dbContext.Update(category);
             if (_dbContext.SaveChanges() > 0)
             {
@@ -173,7 +162,15 @@ ORDER BY Sort DESC, Id ASC
         {
             DemoResult result = new DemoResult();
             var categoryIdList = GetChildIdList(categoryId);
-            DeleteCategory(categoryIdList);
+            var intRes = DeleteCategory(categoryIdList);
+            if (intRes > 0)
+            {
+                result.Success("删除成功");
+            }
+            else
+            {
+                result.Failed("删除失败");
+            }
             return result;
         }
     }

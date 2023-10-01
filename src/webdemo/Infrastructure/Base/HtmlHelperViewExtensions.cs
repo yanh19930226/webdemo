@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using System.IO;
 using System.Threading.Tasks;
 //Microsoft.AspNetCore.Mvc.Rendering
-namespace Microsoft.AspNetCore.Mvc.Rendering
+namespace webdemo.Infrastructure.Base
 {
     public static class HtmlHelperViewExtensions
     {

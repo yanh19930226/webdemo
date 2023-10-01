@@ -43,6 +43,27 @@ namespace webdemo.Views.Shared.ViewComponents
                    Name = "Partial分页测试",
                    Url = "/PageDemo/PartialIndex",
                },
+
+               new MenuVo()
+               {
+                   Id=7,
+                   ParentId=0,
+                   Type=1,
+                   Name = "类别管理",
+                   Url = "",
+               },
+
+
+               new MenuVo()
+               {
+                   Id=8,
+                   ParentId=7,
+                   Type=2,
+                   Name = "类别",
+                   Url = "/Category",
+               },
+
+
                new MenuVo()
                {
                    Id=3,

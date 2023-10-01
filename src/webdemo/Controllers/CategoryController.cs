@@ -1,13 +1,13 @@
-﻿namespace webdemo.Controllers
+﻿using webdemo.Models.Dto.Category;
+
+namespace webdemo.Controllers
 {
     public class CategoryController : Controller
     {
-        private DemoDbContext _dbContext;
         private IMapper _mapper;
         private ICategoryService _categoryService;
-        public CategoryController(DemoDbContext dbContext, IMapper mapper, ICategoryService categoryService)
+        public CategoryController(IMapper mapper, ICategoryService categoryService)
         {
-            _dbContext = dbContext;
             _mapper = mapper;
             _categoryService = categoryService;
         }
@@ -16,65 +16,40 @@
         {
             return View();
         }
-        
-
-        public IActionResult Add()
+        public IActionResult GetCategoryList(int serviceId)
         {
-            return View();
+            var result = _categoryService.GetCategoryList(serviceId);
+            return Json(result);
         }
+
+        public IActionResult Add(int serviceId, int parentId)
+        {
+            CreateCategoryVo createCategoryVo = new CreateCategoryVo();
+            createCategoryVo.ServiceId = serviceId;
+            createCategoryVo.ParentId = parentId;
+            return PartialView(createCategoryVo);
+        }
+       
         [HttpPost]
-        public IActionResult DoAdd(UserCreateDto dto)
+        public IActionResult DoAdd(CreateCategoryVo dto)
         {
-            DemoResult result = new DemoResult();
-            _dbContext.User.Add(_mapper.Map<User>(dto));
-            if (_dbContext.SaveChanges() > 0)
-            {
-                result.Success("添加成功");
-            }
-            else
-            {
-                result.Failed("添加失败");
-            }
-            return Ok(result);
+            return Ok(_categoryService.CreateCategory(dto));
         }
 
-        public IActionResult Edit(int Id)
-        {
-            var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
-            return View(_mapper.Map<UserEditDto>(edit));
-        }
+        //public IActionResult Edit(int Id)
+        //{
+        //    var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
+        //    return View(_mapper.Map<UserEditDto>(edit));
+        //}
         [HttpPost]
-        public IActionResult DoEdit(UserEditDto dto)
+        public IActionResult DoEdit(CreateCategoryVo dto)
         {
-            DemoResult result = new DemoResult();
-
-            var edit = _dbContext.User.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
-
-            _dbContext.User.Update(_mapper.Map<User>(dto));
-
-            if (_dbContext.SaveChanges() > 0)
-            {
-                result.Success("修改成功");
-            }
-            else
-            {
-                result.Failed("修改失败");
-            }
-
-            return Ok(result);
+            return Ok(_categoryService.EditCategory(dto));
         }
 
         public IActionResult Delete(int Id)
         {
-            DemoResult result = new DemoResult();
-            var delete = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
-            delete.IsDel = true;
-            _dbContext.User.Update(delete);
-            if (_dbContext.SaveChanges() > 0)
-            {
-                result.Success("删除成功");
-            }
-            return Ok(result);
+            return Ok(_categoryService.DeleteCategory(Id));
         }
     }
 }
