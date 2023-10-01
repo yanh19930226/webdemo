@@ -1,4 +1,6 @@
-﻿using webdemo.Models.Vo.Category;
+﻿using NuGet.Protocol.Core.Types;
+using webdemo.Models.Dto.Category;
+using webdemo.Models.Vo.Category;
 
 namespace webdemo.Services.Impl
 {
@@ -11,6 +13,12 @@ namespace webdemo.Services.Impl
             _mapper = mapper;
             _dbContext = dbContext;
         }
+        /// <summary>
+        /// 获取子节点
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         private List<CategoryTreeVo> GetChildren(List<Category> list, long? categoryId)
         {
             List<CategoryTreeVo> nodeList = new List<CategoryTreeVo>();
@@ -26,7 +34,7 @@ namespace webdemo.Services.Impl
         }
 
         /// <summary>
-        /// 获取所有子级节点
+        /// 获取所有子级节点Id
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns></returns>
@@ -50,10 +58,50 @@ FROM t
             }).Select(p=>p.Id).ToList();
             return categoryIdList;
         }
-        public Category GetHelpCategory(int categoryId)
+
+        /// <summary>
+        /// 删除Category
+        /// </summary>
+        /// <param name="categoryIdList"></param>
+        /// <returns></returns>
+        public int DeleteCategory(List<long> categoryIdList)
+        {
+            //            if (categoryIdList == null || categoryIdList.Count == 0)
+            //            {
+            //                return 0;
+            //            }
+
+            //            var parameters = new
+            //            {
+            //                CategoryIds = string.Join(",", categoryIdList)
+            //            };
+
+            //            var cmdText = $@"
+            //UPDATE [HelpArticle]
+            //SET [Status] = 0
+            //WHERE CategoryId IN (
+            //		SELECT *
+            //		FROM SplitInt32Table(@CategoryIds, ','))";
+            //            _repository.Execute(cmdText, parameters);
+
+            //            cmdText = $@"
+            //DELETE FROM [HelpCategory]
+            //WHERE CategoryId IN (
+            //		SELECT *
+            //		FROM SplitInt32Table(@CategoryIds, ','))
+            //            ";
+
+            //            return _repository.Execute(cmdText, parameters);
+
+
+            return 1;
+        }
+
+        public Category GetCategory(long categoryId)
         {
             return _dbContext.Category.FirstOrDefault(c => c.Id == categoryId);
         }
+
         public List<CategoryVo> GetCategoryList(int serviceId)
         {
             var cmdText = $@"
@@ -74,7 +122,7 @@ WHERE ServiceId = @ServiceId
 ORDER BY Sort DESC, Id ASC
             ";
 
-            var result = _dbContext.Category.FromSqlRaw<Category>(cmdText, new
+            var result = _dbContext.CategoryVo.FromSqlRaw<CategoryVo>(cmdText, new
             {
                 ServiceId = serviceId
             }).ToList();
@@ -87,38 +135,46 @@ ORDER BY Sort DESC, Id ASC
             return GetChildren(result, 0);
         }
 
-        //public ApiResult CreateCategory(CreateHelpCategoryViewModel postModel)
-        //{
-        //    HelpCategory helpCategory = new HelpCategory();
-        //    postModel.Map(helpCategory);
-        //    helpCategory.CreateTime = DateTime.Now;
-        //    var result = _helpCategoryRepository.AddHelpCategory(helpCategory);
-        //    if (result)
-        //    {
-        //        return ApiResult.Success("添加成功");
-        //    }
-        //    return ApiResult.Error("添加失败");
-        //}
-        //public ApiResult EditCategory(CreateHelpCategoryViewModel postModel)
-        //{
-        //    var helpCategory = _helpCategoryRepository.GetHelpCategory(postModel.CategoryId);
-        //    postModel.Map(helpCategory);
-        //    var result = _helpCategoryRepository.UpdateHelpCategory(helpCategory);
-        //    if (result)
-        //    {
-        //        return ApiResult.Success("修改成功");
-        //    }
-        //    return ApiResult.Error("修改失败");
-        //}
-        //public ApiResult DeleteCategory(int categoryId)
-        //{
-        //    var categoryIdList = GetChildIdList(categoryId);
-        //    var result = _helpCategoryRepository.DeleteHelpCategory(categoryIdList);
-        //    if (result > 0)
-        //    {
-        //        return ApiResult.Success("删除成功");
-        //    }
-        //    return ApiResult.Error("删除失败");
-        //}
+        public DemoResult CreateCategory(CreateCategoryVo createCategoryVo)
+        {
+            DemoResult result = new DemoResult();
+            Category category = new Category();
+            category.CreateTime = DateTime.Now;
+
+            _dbContext.Add(category);
+            if (_dbContext.SaveChanges() > 0)
+            {
+                result.Success("修改成功");
+            }
+            else
+            {
+                result.Failed("修改失败");
+            }
+            return result;
+        }
+        public DemoResult EditCategory(CreateCategoryVo createCategoryVo)
+        {
+            DemoResult result = new DemoResult();
+            var category = _dbContext.Category.FirstOrDefault(c => c.Id == createCategoryVo.CategoryId);
+
+            _dbContext.Update(category);
+            if (_dbContext.SaveChanges() > 0)
+            {
+                result.Success("修改成功");
+            }
+            else
+            {
+                result.Failed("修改失败");
+            }
+            return result;
+        }
+
+        public DemoResult DeleteCategory(int categoryId)
+        {
+            DemoResult result = new DemoResult();
+            var categoryIdList = GetChildIdList(categoryId);
+            DeleteCategory(categoryIdList);
+            return result;
+        }
     }
 }

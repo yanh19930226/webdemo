@@ -1,4 +1,6 @@
-﻿namespace webdemo.Data
+﻿using webdemo.Models.Vo.Category;
+
+namespace webdemo.Data
 {
     public class DemoDbContext : DbContext
     {
@@ -14,6 +16,9 @@
         public DbSet<User> User { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Article> Article { get; set; }
+
+
+        public DbSet<CategoryVo> CategoryVo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
