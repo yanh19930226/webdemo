@@ -2,11 +2,14 @@
 {
     public class UserSearch:Search
     {
-        public string Keyword { get; set; }
-
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public 服务来源 Service { get; set; }
+
+        public int Status { get; set; }
+        public string Keyword { get; set; }
     }
 
     public class UserListVo

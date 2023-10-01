@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace webdemo.Infrastructure.TagHelpers
@@ -23,62 +22,45 @@ namespace webdemo.Infrastructure.TagHelpers
             var endName = string.IsNullOrEmpty(EndName) ? AspEndFor.Name : EndName;
             var startDate = AspStartFor.Model == null ? "" : Convert.ToDateTime(AspStartFor.Model).ToString("yyyy-MM-dd");
             var endDate = AspEndFor.Model == null ? "" : Convert.ToDateTime(AspEndFor.Model).ToString("yyyy-MM-dd");
-            var labelHtml = GetLabelAsHtml(context, output);
+            var textDate = (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate)) ? $"{startDate}-{endDate}" : "";
             var sbHtml = new StringBuilder();
-            sbHtml.AppendLine(labelHtml);
-            sbHtml.AppendLine("<div class=\"input-daterange form-control\">");
-            sbHtml.AppendLine("<div class=\"input-daterange-item\">");
-            sbHtml.AppendLine($"<input type=\"hidden\" name=\"{startName}\" />");
-            sbHtml.AppendLine($"<input type=\"text\" value=\"{startDate}\" style=\"width:6rem;border:none\" />");
-            sbHtml.AppendLine("</div>");
-            sbHtml.AppendLine("<span class=\"input-group-addon\">-</span>");
-            sbHtml.AppendLine("<div class=\"input-daterange-item\">");
-            sbHtml.AppendLine($"<input type=\"hidden\" name=\"{endName}\" />");
-            sbHtml.AppendLine($"<input type=\"text\" value=\"{endDate}\" style=\"width:6rem;border:none\" />");
+            sbHtml.AppendLine($"<label class=\"col-mb-1 col-form-label\">{Label}</label>");
+            sbHtml.AppendLine($"<input type = \"text\" class=\"form-control\" data-toggle=\"date-picker\" data-cancel-class=\"btn-warning\" id=\"{Label}\" name=\"{Label}\" value=\"{textDate}\">");
+            sbHtml.AppendLine($"<input type = \"hidden\" name=\"{startName}\">");
+            sbHtml.AppendLine($"<input type = \"hidden\" name=\"{endName}\">");
             sbHtml.AppendLine("</div>");
             sbHtml.AppendLine("</div>");
-            output.TagName = "div";
-            output.Attributes.AddClass("form-group abp-datetime-range");
             output.TagMode = TagMode.StartTagAndEndTag;
             output.PreContent.AppendHtml(sbHtml.ToString());
+            output.PostElement.SetHtmlContent($@"
+            <script>
+             $('[name={Label}]').val('');
+             $('#{Label}').daterangepicker({{
+             autoApply: false,
+             autoUpdateInput: false,
+             locale: {{
+                format: 'YYYY-MM-DD',
+                separator: '',
+                applyLabel: '确定',
+                cancelLabel: '取消',
+                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+            }}
+            }});
 
-            //output.PostElement.SetHtmlContent($@"
-            //<script>
-            // layui.use('laydate', function(){{
-            //       var laydate = layui.laydate;
+            $('#{Label}').on('apply.daterangepicker', function(ev, picker) {{
+             debugger;
 
-            //       //执行一个laydate实例
-            //       laydate.render({{
-            //         elem: '#{Name}' //指定元素
-            //     ,change:function(value){{
-            //           $('#{Name}').val(value);   
-            //     }}
-            //       }});
-            //     }});
-            // </script>");
+            $('[name={startName}]').val(picker.startDate.format('YYYY-MM-DD'));
+            $('[name={endName}]').val(picker.endDate.format('YYYY-MM-DD'));
+            $('[name={Label}]').val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+            }}).on('cancel.daterangepicker', function (ev, picker) {{
+            $('[name={startName}]').val('');
+            $('[name={endName}]').val('');
+            $('[name={Label}]').val('');
+            }});
+             </script>");
 
-            base.Process(context, output);
-        }
-
-        private string GetLabelAsHtml(TagHelperContext context, TagHelperOutput output)
-        {
-            if (!string.IsNullOrEmpty(Label))
-            {
-                var label = new TagBuilder("label");
-                label.InnerHtml.AppendHtml(Label);
-                return label.ToHtmlString();
-            }
-            return "";
-        }
-    }
-
-
-    [HtmlTargetElement("test-button")]
-    public class ButtonTagHelper : TagHelper
-    {
-        public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
-            output.TagName = "button";
             base.Process(context, output);
         }
     }

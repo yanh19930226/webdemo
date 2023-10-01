@@ -16,5 +16,8 @@
         /// 
         /// </summary>
         public int Age { get; set; }
+
+        public int Status { get; set; }
+        public 服务来源 Service { get; set; }
     }
 }
