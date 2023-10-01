@@ -36,20 +36,20 @@ namespace webdemo.Controllers
             return Ok(_categoryService.CreateCategory(dto));
         }
 
-        //public IActionResult Edit(int Id)
-        //{
-        //    var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
-        //    return View(_mapper.Map<UserEditDto>(edit));
-        //}
+        public IActionResult Edit(long id)
+        {
+            var edit = _categoryService.GetCategory(id);
+            return View(_mapper.Map<UserEditDto>(edit));
+        }
         [HttpPost]
         public IActionResult DoEdit(CreateCategoryVo dto)
         {
             return Ok(_categoryService.EditCategory(dto));
         }
 
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(long id)
         {
-            return Ok(_categoryService.DeleteCategory(Id));
+            return Ok(_categoryService.DeleteCategory(id));
         }
     }
 }

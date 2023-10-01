@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-primary btn-sm add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("CreateCategory","Category")?serviceId=1&parentId=0">添加一级菜单</button>
+                    <button type="button" class="btn btn-primary btn-sm add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("Add","Category")?serviceId=1&parentId=0">添加一级菜单</button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="loadData()">查询</button>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         </div>
     </div>
 </section>
-
+<script src="~/lib/bootstrap-treetable/bootstrap-treetable-1.0.1.js"></script>
 <script type="text/javascript">
     var treeTable = $('#tableid').bootstrapTreeTable({
         method: "GET",
@@ -60,8 +60,8 @@
                 if (row.level != 3) {
                     let actions = `
                                                       <div>
-                                                              <button type="button" class="btn btn-primary btn-sm" title="添加子菜单" data-css="modal-lg" data-src="/HelpCenter/CreateCategory?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
-                                                              <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/HelpCenter/EditCategory?categoryId=`+ row.id + `">修改</button>
+                                                                  <button type="button" class="btn btn-primary btn-sm" title="添加子菜单" data-css="modal-lg" data-src="/Category/DoAdd?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
+                                                                      <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/Category/DoEdit?categoryId=`+ row.id + `">修改</button>
                                                               <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
                                                       </div>
                                                     `;
@@ -69,7 +69,7 @@
                 } else {
                     let actions = `
                                                           <div>
-                                                                  <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/HelpCenter/EditCategory?categoryId=`+ row.id + `">修改</button>
+                                                                          <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/Category/DoEdit?categoryId=`+ row.id + `">修改</button>
                                                                   <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
                                                           </div>
                                                         `;
@@ -127,6 +127,6 @@
     };
 
     var change = function () {
-        $(".add").attr("data-src", "/Category/CreateCategory?serviceId=" + $("#serviceId").val() + "&parentId=0");
+        $(".add").attr("data-src", "/Category/DoAdd?serviceId=" + $("#serviceId").val() + "&parentId=0");
     };
 </script>

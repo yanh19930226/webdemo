@@ -1,14 +1,17 @@
-﻿namespace webdemo.Services.Impl
+﻿using SqlSugar;
+using System.Linq;
+
+namespace webdemo.Services.Impl
 {
     public class UserService : IUserService
     {
         private IMapper _mapper;
-        private DemoDbContext _dbContext;
+        private readonly IBaseRepository<User> _dal;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment Env;
-        public UserService(IMapper mapper,DemoDbContext dbContext, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public UserService(IMapper mapper, IBaseRepository<User> dal, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             _mapper = mapper;
-            _dbContext = dbContext;
+            _dal = dal;
             Env = env;
         }
 
@@ -18,7 +21,7 @@
                          .WhereIf(true, p => p.IsDel == false)
                          .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.UserName.Contains(search.Keyword));
 
-            var result = _dbContext.User.Where(where).Select(p => _mapper.Map<UserListVo>(p));
+            var result = _dal.QueryListByClause(where).Select(p => _mapper.Map<UserListVo>(p));
 
             return result.ToPagedList(search.PageIndex, search.PageSize);
         }

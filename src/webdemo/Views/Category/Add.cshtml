@@ -1,15 +1,37 @@
-﻿
+﻿@model CreateCategoryVo
 @{
     Layout = null;
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Add</title>
-</head>
-<body>
-</body>
-</html>
+<form id="createForm" asp-action="DoAdd" asp-controller="Category" data-ajax-method="post" data-ajax="true" data-ajax-complete="completed">
+    <div class="modal-body">
+        <input type="hidden" asp-for="@Model.ServiceId">
+        <input type="hidden" asp-for="@Model.ParentId">
+        <div class="form-group">
+            <label asp-for="@Model.CategoryName">菜单标题</label>
+            <input type="text" class="form-control" placeholder="菜单标题" asp-for="@Model.CategoryName" />
+            <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Sort">菜单排序</label>
+            <input type="text" class="form-control" placeholder="菜单排序" asp-for="@Model.Sort" />
+            <span asp-validation-for="@Model.Sort" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
+<script>
+    var completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.code = 200) {
+            $.tipsOk("操作成功!");
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+        } else {
+            $.tipsError(rv.msg);
+        }
+    };
+</script>

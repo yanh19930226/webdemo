@@ -6,10 +6,6 @@
     public partial class Article : Entity
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public Int32 Id { get; set; }
-        /// <summary>
         /// 标题
         /// </summary>
         public String Title { get; set; }

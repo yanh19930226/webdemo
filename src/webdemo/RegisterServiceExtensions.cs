@@ -87,6 +87,13 @@ namespace webdemo
                     {
                         Client.CodeFirst.InitTables(types.ToArray());
                     }
+                    User user = new User();
+                    user.UserName = "yh";
+                    user.Password = "yh";
+                    if (Client.Insertable(user).ExecuteCommand()>0)
+                    {
+                        Console.WriteLine("init success");
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using webdemo.Models.Dto.Category;
+﻿using SqlSugar;
+using webdemo.Models.Dto.Category;
 using webdemo.Models.Vo.Category;
 
 namespace webdemo.Services.Impl
@@ -6,11 +7,13 @@ namespace webdemo.Services.Impl
     public class CategoryService : ICategoryService
     {
         private IMapper _mapper;
-        private DemoDbContext _dbContext;
-        public CategoryService(IMapper mapper, DemoDbContext dbContext)
+        private readonly SqlSugarScope _sqlSugarClient;
+        private readonly IBaseRepository<Category> _dal;
+        public CategoryService(IMapper mapper, SqlSugarScope sqlSugarClient, IBaseRepository<Category> dal)
         {
             _mapper = mapper;
-            _dbContext = dbContext;
+            _sqlSugarClient=sqlSugarClient;
+            _dal = dal;
         }
         /// <summary>
         /// 获取子节点
@@ -41,20 +44,21 @@ namespace webdemo.Services.Impl
         {
             var cmdText = $@"
 WITH t AS (
-		SELECT Id, CategoryName, ParentId
-		FROM [Category] WITH (NOLOCK)
+		SELECT Id, category_name, parent_id
+		FROM category WITH (NOLOCK)
 		WHERE Id = @CategoryId
 		UNION ALL
-		SELECT [Category].Id, [Category].CategoryName, [Category].ParentId
-		FROM [Category], t
-		WHERE [Category].ParentId = t.Id
+		SELECT category.Id, category.category_name, category.parent_id
+		FROM category, t
+		WHERE category.parent_id = t.Id
 	)
 SELECT *
 FROM t
             ";
-            var categoryIdList = _dbContext.Category.FromSqlRaw<Category>(cmdText, new {
+            var categoryIdList = _sqlSugarClient.Ado.SqlQuery<long>(cmdText, new
+            {
                 CategoryId = categoryId,
-            }).Select(p=>p.Id).ToList();
+            });
             return categoryIdList;
         }
 
@@ -71,44 +75,43 @@ FROM t
             }
 
             var cmdText = $@"
-            UPDATE [Article]
+            UPDATE article
             SET [Status] = 0
-            WHERE CategoryId IN ({string.Join(",", categoryIdList)})";
-            _dbContext.Database.ExecuteSqlRaw(cmdText);
+            WHERE category_id IN ({string.Join(",", categoryIdList)})";
+            _sqlSugarClient.Ado.ExecuteCommand(cmdText);
 
             cmdText = $@"
-            DELETE FROM [Category]
-            WHERE CategoryId IN ({string.Join(",", categoryIdList)})";
-
-            return _dbContext.Database.ExecuteSqlRaw(cmdText);
+            DELETE FROM category
+            WHERE id IN ({string.Join(",", categoryIdList)})";
+            return _sqlSugarClient.Ado.ExecuteCommand(cmdText);
         }
 
         public Category GetCategory(long categoryId)
         {
-            return _dbContext.Category.FirstOrDefault(c => c.Id == categoryId);
+            return _dal.QueryByClause(c => c.Id == categoryId);
         }
 
         public List<CategoryVo> GetCategoryList(int serviceId)
         {
             var cmdText = $@"
-WITH RECURSIVE CTE_CHILD (Id, ServiceId, CategoryName, ParentId, Sort, STATUS, LEVEL) AS (
-		SELECT ServiceId, Id, CategoryName, ParentId, Sort, STATUS, 1 AS LEVEL
-		FROM Category
-		WHERE ParentId = 0
+WITH RECURSIVE cte_child (service_id, id, category_name, parent_id, sort, status, LEVEL) AS (
+		SELECT service_id, id, category_name, parent_id, sort, status, 1 AS LEVEL
+		FROM category
+		WHERE parent_id = 0
 		UNION ALL
-		SELECT A.Id, A.ServiceId, A.CategoryName, A.ParentId, A.Sort
-			, A.Status, B.Level + 1
-		FROM Category A
-			INNER JOIN CTE_CHILD B ON A.ParentId = B.Id
+		SELECT a.service_id, a.id, a.category_name, a.parent_id, a.sort
+			, a.status, b.level + 1
+		FROM category a
+			INNER JOIN cte_child b ON a.parent_id = b.id
 	)
 SELECT *
-FROM CTE_CHILD
-WHERE ServiceId = @ServiceId
-	AND STATUS = 1
-ORDER BY Sort DESC, Id ASC
+FROM cte_child
+WHERE service_id = @ServiceId
+	AND status = 0
+ORDER BY sort DESC, id ASC
             ";
 
-            var result = _dbContext.CategoryVo.FromSqlRaw<CategoryVo>(cmdText, new
+            var result = _sqlSugarClient.Ado.SqlQuery<CategoryVo>(cmdText, new
             {
                 ServiceId = serviceId
             }).ToList();
@@ -117,24 +120,21 @@ ORDER BY Sort DESC, Id ASC
 
         public List<CategoryTreeVo> GetCategoryTree(int serviceId)
         {
-            var result = _dbContext.Category.Where(p => p.ServiceId == serviceId && p.Status == 0).ToList();
+            var result = _dal.QueryListByClause(p => p.ServiceId == serviceId && p.Status == 0).ToList();
             return GetChildren(result, 0);
         }
 
         public DemoResult CreateCategory(CreateCategoryVo createCategoryVo)
         {
             DemoResult result = new DemoResult();
-            Category category = new Category();
-            _mapper.Map<CreateCategoryVo>(category);
-            category.CreateTime = DateTime.Now;
-            _dbContext.Add(category);
-            if (_dbContext.SaveChanges() > 0)
+            Category category = _mapper.Map<Category>(createCategoryVo);
+            if (_dal.Insert(category) > 0)
             {
-                result.Success("修改成功");
+                result.Success("添加成功");
             }
             else
             {
-                result.Failed("修改失败");
+                result.Failed("添加失败");
             }
             return result;
         }
@@ -142,10 +142,8 @@ ORDER BY Sort DESC, Id ASC
         public DemoResult EditCategory(CreateCategoryVo createCategoryVo)
         {
             DemoResult result = new DemoResult();
-            var category = _dbContext.Category.FirstOrDefault(c => c.Id == createCategoryVo.CategoryId);
-            _mapper.Map<CreateCategoryVo>(category);
-            _dbContext.Update(category);
-            if (_dbContext.SaveChanges() > 0)
+            var category=_mapper.Map<Category>(createCategoryVo);
+            if (_dal.Update(category))
             {
                 result.Success("修改成功");
             }
@@ -156,7 +154,7 @@ ORDER BY Sort DESC, Id ASC
             return result;
         }
 
-        public DemoResult DeleteCategory(int categoryId)
+        public DemoResult DeleteCategory(long categoryId)
         {
             DemoResult result = new DemoResult();
             var categoryIdList = GetChildIdList(categoryId);

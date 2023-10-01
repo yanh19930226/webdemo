@@ -4,12 +4,12 @@ namespace webdemo.Controllers
 {
     public class HomeController : Controller
     {
-        public readonly SqlSugarScope _sqlSugarClient;
+        private readonly IBaseRepository<User> _dal;
         private IHttpContextAccessor _httpcontext;
-        public HomeController(SqlSugarScope sqlSugarClient, IHttpContextAccessor httpcontext)
+        public HomeController(IBaseRepository<User> dal,IHttpContextAccessor httpcontext)
         {
-            _sqlSugarClient = sqlSugarClient;
             _httpcontext= httpcontext;
+            _dal= dal;
         }
 
         [Authorize]
@@ -40,7 +40,7 @@ namespace webdemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _dbContext.User.FirstOrDefaultAsync(p => p.UserName == dto.UserName && p.Password == dto.Password);
+                var user = await _dal.QueryByClauseAsync(p => p.UserName == dto.UserName && p.Password == dto.Password);
 
                 if (user != null)
                 {

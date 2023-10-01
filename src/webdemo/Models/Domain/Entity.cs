@@ -1,10 +1,19 @@
-﻿namespace webdemo.Models.Domain
+﻿using SqlSugar;
+using System.Security.Principal;
+
+namespace webdemo.Models.Domain
 {
-    public abstract class Entity : Entity<long>
+    public interface IBase
+    {
+
+    }
+
+    public abstract class Entity : Entity<long>, IBase
     {
     }
     public abstract class Entity<T>
     {
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public T Id
         {
             get;
@@ -17,7 +26,7 @@
             set;
         }
 
-        public DateTime ModifyTime
+        public DateTime UpdateTime
         {
             get;
             set;

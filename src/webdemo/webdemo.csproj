@@ -100,7 +100,6 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="MvcCorePager" Version="0.1.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
 	<PackageReference Include="SqlSugarCore" Version="5.1.4.93" />
   </ItemGroup>
@@ -1355,5 +1354,7 @@
     <None Include="wwwroot\lib\sco\sco.message.js" />
     <None Include="wwwroot\lib\sco\sco.modal.js" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/appsscript.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

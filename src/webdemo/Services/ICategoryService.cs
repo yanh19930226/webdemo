@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using webdemo.Models.Dto.Category;
+﻿using webdemo.Models.Dto.Category;
 using webdemo.Models.Vo.Category;
 
 namespace webdemo.Services
@@ -17,6 +16,6 @@ namespace webdemo.Services
         
         DemoResult EditCategory(CreateCategoryVo createCategoryVo);
 
-        DemoResult DeleteCategory(int categoryId);
+        DemoResult DeleteCategory(long categoryId);
     }
 }

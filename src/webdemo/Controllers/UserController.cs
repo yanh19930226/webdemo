@@ -2,12 +2,12 @@
 {
     public class UserController : Controller
     {
-        private DemoDbContext _dbContext;
+        private readonly IBaseRepository<User> _dal;
         private IMapper _mapper;
         private IUserService _userService;
-        public UserController(DemoDbContext dbContext, IMapper mapper, IUserService userService)
+        public UserController(IBaseRepository<User> dal, IMapper mapper, IUserService userService)
         {
-            _dbContext = dbContext;
+            _dal = dal;
             _mapper = mapper;
             _userService= userService;
         }
@@ -33,8 +33,7 @@
         public IActionResult DoAdd(UserCreateDto dto)
         {
             DemoResult result = new DemoResult();
-            _dbContext.User.Add(_mapper.Map<User>(dto));
-            if (_dbContext.SaveChanges() > 0)
+            if (_dal.Insert(_mapper.Map<User>(dto)) > 0)
             {
                 result.Success("添加成功");
             }
@@ -47,19 +46,14 @@
 
         public IActionResult Edit(int Id)
         {
-            var edit = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
+            var edit = _dal.QueryByClause(p => p.Id == Id);
             return View(_mapper.Map<UserEditDto>(edit));
         }
         [HttpPost]
         public IActionResult DoEdit(UserEditDto dto)
         {
             DemoResult result = new DemoResult();
-
-            var edit = _dbContext.User.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
-
-            _dbContext.User.Update(_mapper.Map<User>(dto));
-
-            if (_dbContext.SaveChanges() > 0)
+            if (_dal.Update(_mapper.Map<User>(dto)))
             {
                 result.Success("修改成功");
             }
@@ -74,10 +68,9 @@
         public IActionResult Delete(int Id)
         {
             DemoResult result = new DemoResult();
-            var delete = _dbContext.User.Where(p => p.Id == Id).FirstOrDefault();
+            var delete = _dal.QueryByClause(p => p.Id == Id);
             delete.IsDel = true;
-            _dbContext.User.Update(delete);
-            if (_dbContext.SaveChanges() > 0)
+            if (_dal.Update(delete))
             {
                 result.Success("删除成功");
             }
