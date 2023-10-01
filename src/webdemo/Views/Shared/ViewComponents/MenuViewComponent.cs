@@ -49,7 +49,7 @@ namespace webdemo.Views.Shared.ViewComponents
                    Id=7,
                    ParentId=0,
                    Type=1,
-                   Name = "类别管理",
+                   Name = "内容管理",
                    Url = "",
                },
 
@@ -59,7 +59,7 @@ namespace webdemo.Views.Shared.ViewComponents
                    Id=8,
                    ParentId=7,
                    Type=2,
-                   Name = "菜单管理",
+                   Name = "分类管理",
                    Url = "/Category",
                },
 

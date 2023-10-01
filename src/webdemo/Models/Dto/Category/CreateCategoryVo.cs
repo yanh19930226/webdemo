@@ -13,7 +13,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public int CategoryId { get; set; }
+        public long Id { get; set; }
         /// <summary>
         /// 
         /// </summary>

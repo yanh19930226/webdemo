@@ -6,13 +6,13 @@
     <div class="modal-body">
         <input type="hidden" asp-for="@Model.ServiceId">
         <input type="hidden" asp-for="@Model.ParentId">
-        <div class="form-group">
-            <label asp-for="@Model.CategoryName">菜单标题</label>
+        <div class="mb-3">
+            <label asp-for="@Model.CategoryName" class="form-label">菜单标题</label>
             <input type="text" class="form-control" placeholder="菜单标题" asp-for="@Model.CategoryName" />
             <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="@Model.Sort">菜单排序</label>
+        <div class="mb-3">
+            <label asp-for="@Model.Sort" class="form-label">菜单排序</label>
             <input type="text" class="form-control" placeholder="菜单排序" asp-for="@Model.Sort" />
             <span asp-validation-for="@Model.Sort" class="text-danger"></span>
         </div>

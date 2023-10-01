@@ -709,7 +709,8 @@
         self.init(self.lastAjaxParams);
     };
     // 刷新数据,外部api使用
-    BootstrapTreeTable.prototype.refresh = function(params) {
+    BootstrapTreeTable.prototype.refresh = function (params) {
+        debugger;
         var self = this;
         self.destroy();
         if (params) {
@@ -1055,8 +1056,8 @@
         showExpandCollapse: true, // 是否显示展开折叠所有按钮
         showBatchSort: false, // 是否显示批量排序,这个需要程序内有排序的功能, 事件需要自己注册实现
         showCheckAll: false, // 是否显示批量选中和批量取消选中
-        expanderExpandedClass: 'fa fa-chevron-down', // 展开的按钮的图标
-        expanderCollapsedClass: 'fa fa-chevron-right', // 缩起的按钮的图标
+        expanderExpandedClass: 'ri-subtract-fill', // 展开的按钮的图标
+        expanderCollapsedClass: 'ri-add-fill', // 缩起的按钮的图标
         toolRefreshClass: 'fa fa-refresh', // 工具栏刷新按钮
         toolColumnsClass: 'fa fa-table', // 工具栏列按钮
         toolExpandClass: 'fa fa-plus-square', // 工具栏展开所有按钮

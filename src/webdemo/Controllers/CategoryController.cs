@@ -16,7 +16,7 @@ namespace webdemo.Controllers
         {
             return View();
         }
-        public IActionResult GetCategoryList(int serviceId)
+        public IActionResult GetCategoryList(int serviceId = 0)
         {
             var result = _categoryService.GetCategoryList(serviceId);
             return Json(result);
@@ -36,10 +36,10 @@ namespace webdemo.Controllers
             return Ok(_categoryService.CreateCategory(dto));
         }
 
-        public IActionResult Edit(long id)
+        public IActionResult Edit(long categoryId)
         {
-            var edit = _categoryService.GetCategory(id);
-            return View(_mapper.Map<UserEditDto>(edit));
+            var edit = _categoryService.GetCategory(categoryId);
+            return View(_mapper.Map<CreateCategoryVo>(edit));
         }
         [HttpPost]
         public IActionResult DoEdit(CreateCategoryVo dto)
@@ -47,9 +47,9 @@ namespace webdemo.Controllers
             return Ok(_categoryService.EditCategory(dto));
         }
 
-        public IActionResult Delete(long id)
+        public IActionResult Delete(long categoryId)
         {
-            return Ok(_categoryService.DeleteCategory(id));
+            return Ok(_categoryService.DeleteCategory(categoryId));
         }
     }
 }
