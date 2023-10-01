@@ -1,19 +1,17 @@
-namespace webdemo
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using webdemo;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddConfig(builder.Configuration, builder.Environment);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().MigrateDbContext<DemoDbContext>((context, service) =>
-            {
-                new DemoDbContextSeed().SeedAsync(context, service).Wait();
-            }).Run();
-        }
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+    builder.RegisterModule(new AutofacModuleRegister());
+});
+
+builder.Build().SetupMiddleware().Run();
+

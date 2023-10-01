@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using System.IO;
 using System.Threading.Tasks;
 //Microsoft.AspNetCore.Mvc.Rendering
-namespace webdemo.Infrastructure.Base
+namespace Microsoft.AspNetCore.Mvc.Rendering
 {
     public static class HtmlHelperViewExtensions
     {
