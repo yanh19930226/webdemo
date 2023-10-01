@@ -8,8 +8,8 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-primary btn-sm add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("Add","Category")?serviceId=1&parentId=0">添加一级菜单</button>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="loadData()">查询</button>
+                    <button type="button" class="btn btn-primary add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("Add","Category")?serviceId=1&parentId=0">添加一级菜单</button>
+                    <button type="button" class="btn btn-primary" onclick="loadData()">查询</button>
                 </div>
             </div>
         </form>
@@ -35,7 +35,7 @@
         expandColumn: 0,
         showBatchSort: false,
         hierarchical: true,
-        showCheckAll: true,
+        showCheckAll: false,
         columns: [{
             title: '菜单名称',
             field: 'categoryName',
@@ -49,28 +49,28 @@
             title: '排序',
             width: '150',
             valign: "bottom",
-            cssClass: 'my-seq hidden-xs', // 新加的属性
+            cssClass: '', // 新加的属性
             visible: true
         },
         {
             title: '操作',
-            cssClass: 'yn-tools sm',
+            cssClass: '',
             formatter: function (value, row, index) {
 
                 if (row.level != 3) {
                     let actions = `
                                                       <div>
-                                                             <button type="button" class="btn btn-primary btn-sm" title="添加子菜单" data-css="modal-lg" data-src="/Category/Add?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
-                                                             <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/Category/Edit?categoryId=`+ row.id + `">修改</button>
-                                                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
+                                                             <button type="button" class="btn btn-primary" title="添加子菜单" data-css="modal-lg" data-src="/Category/Add?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
+                                                             <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Category/Edit?categoryId=`+ row.id + `">修改</button>
+                                                             <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
                                                       </div>
                                                     `;
                     return actions;
                 } else {
                     let actions = `
                                                           <div>
-                                                                 <button type="button" class="btn btn-secondary btn-sm" title="修改" data-css="modal-lg" data-src="/Category/Edit?categoryId=`+ row.id + `">修改</button>
-                                                                 <button type="button" class="btn btn-danger btn-sm" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
+                                                                 <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Category/Edit?categoryId=`+ row.id + `">修改</button>
+                                                                 <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
                                                           </div>
                                                         `;
                     return actions;
@@ -82,17 +82,19 @@
         onLoadSuccess: function (data) {
             console.log("onLoadSuccess");
             return false;
-        },
-        onClickRow: function (row, $element) {
-            console.log("onClickRow", row);
-            console.log("element", $element);
-            return false;
         }
+        //,
+        //onClickRow: function (row, $element) {
+        //    console.log("onClickRow", row);
+        //    console.log("element", $element);
+        //    return false;
+        //}
     });
 
     var loadData = function () {
         debugger;
-        $('#tableid').bootstrapTreeTable('refresh', { serviceId: $("#serviceId").val() });
+        var serviceId = $("#serviceId").val();
+        $('#tableid').bootstrapTreeTable('refresh', { serviceId: serviceId });
     };
 
     var deleteMenu = function (categoryId, categoryName, level) {
