@@ -1,6 +1,6 @@
 ﻿namespace webdemo.Models.Domain
 {
-    public partial class Category : Entity
+    public class Category : Entity
     {
         /// <summary>
         /// 

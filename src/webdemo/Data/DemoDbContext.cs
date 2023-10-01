@@ -12,7 +12,8 @@
         }
 
         public DbSet<User> User { get; set; }
-
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Article> Article { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

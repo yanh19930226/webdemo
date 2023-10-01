@@ -111,7 +111,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Queries\" />
-    <Folder Include="Models\Vo\Category\" />
     <Folder Include="wwwroot\assets\vendor\blueimp-file-upload\node_modules\" />
     <Folder Include="wwwroot\assets\vendor\datatables.net-bs5\node_modules\datatables.net\types\" />
     <Folder Include="wwwroot\assets\vendor\datatables.net-bs5\types\" />
