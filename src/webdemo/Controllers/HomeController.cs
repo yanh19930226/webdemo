@@ -1,12 +1,14 @@
-﻿namespace webdemo.Controllers
+﻿using SqlSugar;
+
+namespace webdemo.Controllers
 {
     public class HomeController : Controller
     {
-        private DemoDbContext _dbContext;
+        public readonly SqlSugarScope _sqlSugarClient;
         private IHttpContextAccessor _httpcontext;
-        public HomeController(DemoDbContext dbContext, IHttpContextAccessor httpcontext)
+        public HomeController(SqlSugarScope sqlSugarClient, IHttpContextAccessor httpcontext)
         {
-            _dbContext = dbContext;
+            _sqlSugarClient = sqlSugarClient;
             _httpcontext= httpcontext;
         }
 
