@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="d-flex justify-content align-items-center gap-2">
-                                        <button type="button" class="btn btn-outline-primary add" title="添加一级菜单" data-css="modal-lg" data-src="@Url.Action("Add","Category")?serviceId=1&parentId=0">添加一级菜单</button>
+                                        <button type="button" class="btn btn-outline-primary add" title="添加一级分类" data-css="modal-lg" data-src="@Url.Action("Add","Category")?serviceId=1&parentId=0">添加一级分类</button>
                                         <button type="button" class="btn btn-outline-primary" onclick="loadData()">查询</button>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
             striped: true, // 是否各行渐变色, 不建议使用
             condensed: true, // 是否紧缩表格
             columns: [{
-                title: '菜单名称',
+                title: '分类名称',
                 field: 'categoryName',
                 width: '150',
                 formatter: function (value, row, index) {
@@ -94,7 +94,7 @@
                     if (row.level != 3) {
                         let actions = `
                                                               <div>
-                                                                     <button type="button" class="btn btn-primary" title="添加子菜单" data-css="modal-lg" data-src="/Category/Add?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子菜单</button>
+                                                                                     <button type="button" class="btn btn-primary" title="添加子分类" data-css="modal-lg" data-src="/Category/Add?serviceId=`+ row.serviceId + `&parentId=` + row.id + `">添加子分类</button>
                                                                      <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Category/Edit?categoryId=`+ row.id + `">修改</button>
                                                                      <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.categoryName + `',` + row.level + `)">删除</button>
                                                               </div>
@@ -135,11 +135,11 @@
             let confirmmsg = "您确定要删除吗";
             switch (level) {
                 case 1:
-                    confirmmsg = "您确定要删除一级菜单" + categoryName + "吗?删除后下属二三级菜单也将同时删除!";
+                    confirmmsg = "您确定要删除一级分类" + categoryName + "吗?删除后下属二三级分类也将同时删除!";
                 case 2:
-                    confirmmsg = "您确定要删除二级菜单" + categoryName + "吗?删除后下属三级菜单也将同时删除!";
+                    confirmmsg = "您确定要删除二级分类" + categoryName + "吗?删除后下属三级分类也将同时删除!";
                 case 3:
-                    confirmmsg = "您确定要删除子菜单" + categoryName + "吗?";
+                    confirmmsg = "您确定要删除子分类" + categoryName + "吗?";
             }
             $.confirm(confirmmsg, function () {
                 $.ajax({

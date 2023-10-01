@@ -8,13 +8,13 @@
         <input type="hidden" asp-for="@Model.ServiceId">
         <input type="hidden" asp-for="@Model.ParentId">
         <div class="mb-3">
-            <label asp-for="@Model.CategoryName" class="form-label">菜单标题</label>
-            <input type="text" class="form-control" placeholder="菜单标题" asp-for="@Model.CategoryName" />
+            <label asp-for="@Model.CategoryName" class="form-label">分类标题</label>
+            <input type="text" class="form-control" placeholder="分类标题" asp-for="@Model.CategoryName" />
             <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.CategoryName" class="form-label">菜单排序</label>
-            <input type="text" class="form-control" placeholder="菜单排序" asp-for="@Model.Sort" />
+            <label asp-for="@Model.CategoryName" class="form-label">分类排序</label>
+            <input type="text" class="form-control" placeholder="分类排序" asp-for="@Model.Sort" />
             <span asp-validation-for="@Model.Sort" class="text-danger"></span>
         </div>
     </div>
