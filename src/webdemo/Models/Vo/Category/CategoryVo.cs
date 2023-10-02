@@ -23,6 +23,9 @@
         /// 
         /// </summary>
         public Int32 Status { get; set; }
+        /// <summary>
+        /// Level
+        /// </summary>
         public int Level { get; set; }
     }
 }

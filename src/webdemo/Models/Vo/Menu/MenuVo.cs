@@ -3,28 +3,44 @@
     public class MenuVo
     {
         /// <summary>
-        /// Id
+        /// 
         /// </summary>
-        public int Id { get; set; }
+        public long Id { get; set; }
         /// <summary>
-        /// 父级Id
+        /// 1.菜单2.链接3.按钮
         /// </summary>
-        public int ParentId { get; set; }
+        public int MenuType { get; set; }
         /// <summary>
-        /// 1菜单2链接
+        /// Level
         /// </summary>
-        public int Type { get; set; }
+        public int Level { get; set; }
         /// <summary>
-        /// 菜单名称
+        /// 
         /// </summary>
-        public string Name { get; set; }
+        public long ParentId { get; set; }
         /// <summary>
-        /// 路径
+        /// 
         /// </summary>
-        public string Url { get; set; }
+        public string MenuName { get; set; }
         /// <summary>
-        /// 图标
+        /// 
+        /// </summary>
+        public string Path { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string AuthorityCode { get; set; }
+        /// <summary>
+        /// 
         /// </summary>
         public string Icon { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Sort { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Status { get; set; }
     }
 }

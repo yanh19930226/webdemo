@@ -1,5 +1,5 @@
-﻿using webdemo.Models.Domain.System;
-using webdemo.Models.Dto.Menu;
+﻿using webdemo.Models.Dto.Menu;
+using webdemo.Models.Vo.Menu;
 
 namespace webdemo.Services
 {
@@ -8,6 +8,8 @@ namespace webdemo.Services
         Menu GetMenu(long id);
 
         IPagedList<Menu> GetMenuPage(MenuSearch search);
+
+        List<MenuTreeVo> GetMenuTree();
 
         DemoResult Create(Menu menu);
 

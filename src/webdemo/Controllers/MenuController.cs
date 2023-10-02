@@ -1,5 +1,4 @@
-﻿using webdemo.Models.Domain.System;
-using webdemo.Models.Dto.Menu;
+﻿using webdemo.Models.Dto.Menu;
 
 namespace webdemo.Controllers
 {

@@ -1,6 +1,8 @@
 ﻿using SqlSugar;
 using webdemo.Models.Domain.System;
 using webdemo.Models.Dto.Menu;
+using webdemo.Models.Vo.Category;
+using webdemo.Models.Vo.Menu;
 
 namespace webdemo.Services.Impl
 {
@@ -15,6 +17,48 @@ namespace webdemo.Services.Impl
             _sqlSugarClient = sqlSugarClient;
             _dal = dal;
         }
+
+        /// <summary>
+        /// 获取子节点
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        private List<MenuTreeVo> GetChildren(List<Menu> list, long? id)
+        {
+            List<MenuTreeVo> nodeList = new List<MenuTreeVo>();
+            var children = list.Where(q => q.ParentId == id);
+            foreach (var item in children)
+            {
+                MenuTreeVo node = new MenuTreeVo();
+                node.Menu = item;
+                node.Children = GetChildren(list, node.Menu.Id);
+                nodeList.Add(node);
+            }
+            return nodeList;
+        }
+
+        public Menu GetMenu(long id)
+        {
+            return _dal.QueryByClause(c => c.Id == id);
+        }
+
+        public IPagedList<Menu> GetMenuPage(MenuSearch search)
+        {
+            var where = PredicateBuilder.True<Menu>()
+                         .WhereIf(true, p => p.IsDel == false);
+
+            var result = _dal.QueryListByClause(where);
+
+            return result.ToPagedList(search.PageIndex, search.PageSize);
+        }
+
+        public List<MenuTreeVo> GetMenuTree()
+        {
+            var result = _dal.QueryListByClause(p => p.Status == 0).ToList();
+            return GetChildren(result, 0);
+        }
+
         public DemoResult Create(Menu menu)
         {
             DemoResult result = new DemoResult();
@@ -25,22 +69,6 @@ namespace webdemo.Services.Impl
             else
             {
                 result.Failed("添加失败");
-            }
-            return result;
-        }
-
-        public DemoResult Delete(long id)
-        {
-            DemoResult result = new DemoResult();
-            var delete = _dal.QueryByClause(p => p.Id == id);
-            delete.IsDel = true;
-            if (_dal.Update(delete))
-            {
-                result.Success("删除成功");
-            }
-            else
-            {
-                result.Failed("删除失败");
             }
             return result;
         }
@@ -60,19 +88,20 @@ namespace webdemo.Services.Impl
             return result;
         }
 
-        public Menu GetMenu(long id)
+        public DemoResult Delete(long id)
         {
-            return _dal.QueryByClause(c => c.Id == id);
-        }
-
-        public IPagedList<Menu> GetMenuPage(MenuSearch search)
-        {
-            var where = PredicateBuilder.True<Menu>()
-                         .WhereIf(true, p => p.IsDel == false);
-
-            var result = _dal.QueryListByClause(where);
-
-            return result.ToPagedList(search.PageIndex, search.PageSize);
+            DemoResult result = new DemoResult();
+            var delete = _dal.QueryByClause(p => p.Id == id);
+            delete.IsDel = true;
+            if (_dal.Update(delete))
+            {
+                result.Success("删除成功");
+            }
+            else
+            {
+                result.Failed("删除失败");
+            }
+            return result;
         }
     }
 }
