@@ -42,9 +42,9 @@ namespace webdemo.Controllers.System
             return View(edit);
         }
         [HttpPost]
-        public IActionResult DoEdit(MenuEditDto dto)
+        public IActionResult DoEdit(Menu dto)
         {
-            return Ok(_menuService.Edit(_mapper.Map<Menu>(dto)));
+            return Ok(_menuService.Edit(dto));
         }
 
         public IActionResult Delete(long id)

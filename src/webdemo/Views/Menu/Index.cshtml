@@ -133,9 +133,9 @@
                     if (row.menuType == 1) {
                         let actions = `
                                                                       <div>
-                                                                             <button type="button" class="btn btn-primary" title="添加链接" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加链接</button>
-                                                                             <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
-                                                                             <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
+                                                                                     <button type="button" class="btn btn-outline-primary" title="添加链接" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加链接</button>
+                                                                                     <button type="button" class="btn btn-outline-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
+                                                                                     <button type="button" class="btn btn-outline-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
                                                                       </div>
                                                                     `;
                         return actions;
@@ -144,17 +144,17 @@
                     
                         let actions = `
                                                                              <div>
-                                                                                     <button type="button" class="btn btn-primary" title="添加按钮" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加按钮</button>
-                                                                                     <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
-                                                                                     <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
+                                                                                             <button type="button" class="btn btn-outline-primary" title="添加按钮" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加按钮</button>
+                                                                                             <button type="button" class="btn btn-outline-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
+                                                                                             <button type="button" class="btn btn-outline-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
                                                                              </div>
                                                                             `;
                         return actions;
                     }else {
                         let actions = `
                                                                           <div>
-                                                                                         <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
-                                                                                         <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
+                                                                                                 <button type="button" class="btn btn-outline-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
+                                                                                                 <button type="button" class="btn btn-outline-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.menuType + `)">删除</button>
                                                                           </div>
                                                                         `;
                         return actions;

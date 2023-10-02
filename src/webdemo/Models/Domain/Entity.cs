@@ -17,7 +17,7 @@ namespace webdemo.Models.Domain
         public T Id
         {
             get;
-            protected set;
+            set;
         }
 
         public DateTime CreateTime

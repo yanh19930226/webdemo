@@ -1,4 +1,4 @@
-﻿namespace webdemo.Models.Domain
+﻿namespace webdemo.Models.Domain.Business
 {
     /// <summary>
     /// Article
@@ -8,38 +8,38 @@
         /// <summary>
         /// 标题
         /// </summary>
-        public String Title { get; set; }
+        public string Title { get; set; }
         /// <summary>
         /// 内容
         /// </summary>
-        public String Content { get; set; }
+        public string Content { get; set; }
         /// <summary>
         /// 作者
         /// </summary>
-        public String Author { get; set; }
+        public string Author { get; set; }
         /// <summary>
         /// 简介
         /// </summary>
-        public String Summary { get; set; }
+        public string Summary { get; set; }
         /// <summary>
         /// 标签
         /// </summary>
-        public String Tags { get; set; }
+        public string Tags { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Int32 CategoryId { get; set; }
+        public int CategoryId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public String CategoryName { get; set; }
+        public string CategoryName { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Int32 Sort { get; set; }
+        public int Sort { get; set; }
         /// <summary>
         /// 状态 0未发布 1已发布
         /// </summary>
-        public Int32 Status { get; set; }
+        public int Status { get; set; }
     }
 }

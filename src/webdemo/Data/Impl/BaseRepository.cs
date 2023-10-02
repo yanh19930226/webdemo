@@ -1,5 +1,4 @@
-﻿using SqlSugar;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace webdemo.Data.Impl
 {

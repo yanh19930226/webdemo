@@ -1,4 +1,5 @@
-﻿using webdemo.Models.Vo.Organization;
+﻿using webdemo.Models.Dto.Organization;
+using webdemo.Models.Vo.Organization;
 namespace webdemo.Services.Impl
 {
     public class OrganizationService
@@ -82,7 +83,7 @@ FROM t";
             return _dal.QueryByClause(c => c.Id == id);
         }
 
-        public List<OrganizationVo> GetOrganizationList()
+        public List<OrganizationVo> GetOrganizationList(OrganizationSearch search)
         {
             var queryText = string.Empty;
             var cmdText = $@"

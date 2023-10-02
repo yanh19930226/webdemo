@@ -1,26 +1,26 @@
-﻿namespace webdemo.Models.Domain
+﻿namespace webdemo.Models.Domain.Business
 {
     public class Category : Entity
     {
         /// <summary>
         /// 
         /// </summary>
-        public Int32 ServiceId { get; set; }
+        public int ServiceId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public String CategoryName { get; set; }
+        public string CategoryName { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Int32 ParentId { get; set; }
+        public int ParentId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Int32 Sort { get; set; }
+        public int Sort { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Int32 Status { get; set; }
+        public int Status { get; set; }
     }
 }
