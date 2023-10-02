@@ -1,7 +1,11 @@
-﻿namespace webdemo.Models.Domain.System
+﻿namespace webdemo.Models.Dto.Menu
 {
-    public class Menu : Entity
+    public class MenuEditDto
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public long Id { get; set; }
         /// <summary>
         /// 1.菜单2.链接3.按钮
         /// </summary>

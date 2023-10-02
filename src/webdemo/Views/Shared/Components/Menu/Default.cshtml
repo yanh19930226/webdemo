@@ -1,4 +1,4 @@
-﻿@model List<webdemo.Models.Vo.Menu.MenuVo>
+﻿@model List<Menu>
 <div class="leftside-menu">
     <!-- Brand Logo Light -->
     <a href="index.html" class="logo logo-light">
@@ -21,7 +21,7 @@
     <!-- Sidebar -left -->
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         @{
-            var parents = Model.Where(p => p.ParentId == 0);
+            var parents = Model.Where(p => p.ParentId == 0&&p.MenuType==1);
         }
         <ul class="side-nav">
             @foreach (var parent in parents)
@@ -34,7 +34,7 @@
                     </a>
                     <div class="collapse" id="@parent.Id">
                         @{
-                            var childs = Model.Where(p => p.ParentId == parent.Id);
+                            var childs = Model.Where(p => p.ParentId == parent.Id&&p.MenuType==2);
                             <ul class="side-nav-second-level">
                                 @foreach (var item in childs)
                                 {

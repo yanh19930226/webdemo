@@ -50,5 +50,33 @@ namespace webdemo.Infrastructure.Extension
 
             return list;
         }
+
+        /// <summary>
+        /// 获取菜单类型
+        /// </summary>
+        /// <returns></returns>
+        public static List<SelectListItem> GetMenuTypeList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>()
+            {
+                 new SelectListItem()
+                {
+                    Value = "1",
+                    Text = "菜单"
+                },
+                new SelectListItem()
+                {
+                   Value = "2",
+                   Text = "链接"
+                },
+                new SelectListItem()
+                {
+                   Value = "3",
+                   Text = "按钮"
+                }
+            };
+
+            return list;
+        }
     }
 }

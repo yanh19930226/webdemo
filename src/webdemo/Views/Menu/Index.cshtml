@@ -83,11 +83,35 @@
                 }
             },
             {
+                field: 'menuType',
+                title: '菜单类型',
+                width: '150',
+                valign: "",
+                cssClass: '',
+                visible: true
+            },
+            {
+                field: 'path',
+                title: '地址',
+                width: '150',
+                valign: "",
+                cssClass: '',
+                visible: true
+            },
+            {
+                field: 'icon',
+                title: '图标',
+                width: '150',
+                valign: "",
+                cssClass: '', 
+                visible: true
+            },
+            {
                 field: 'sort',
                 title: '排序',
                 width: '150',
                 valign: "",
-                cssClass: '', // 新加的属性
+                cssClass: '', 
                 visible: true
             },
             {
@@ -98,7 +122,7 @@
                     if (row.level != 3) {
                         let actions = `
                                                                       <div>
-                                                                             <button type="button" class="btn btn-primary" title="添加子菜单" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加子菜单</button>
+                                                                                     <button type="button" class="btn btn-primary" title="添加子项" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加子项</button>
                                                                              <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
                                                                              <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.level + `)">删除</button>
                                                                       </div>

@@ -1,4 +1,4 @@
-﻿using webdemo.Models.Domain.System;
+﻿using webdemo.Models.Dto.Menu;
 
 namespace webdemo.Models.Profiles
 {
@@ -6,10 +6,8 @@ namespace webdemo.Models.Profiles
     {
         public MenuProfile()
         {
-            CreateMap<User, UserListVo>();
-            CreateMap<UserCreateDto, User>();
-            CreateMap<User, UserEditDto>();
-            CreateMap<UserEditDto, User>();
+            CreateMap<Menu, MenuEditDto>();
+            CreateMap<MenuEditDto, Menu>();
         }
     }
 }

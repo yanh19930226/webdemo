@@ -50,7 +50,7 @@ namespace webdemo.Services.Impl
 
         public List<MenuTreeVo> GetMenuTree()
         {
-            var result = _dal.QueryListByClause(p => p.Status == 0).ToList();
+            var result = _dal.QueryListByClause(p => p.IsDel == false).ToList();
             return GetChildren(result, 0);
         }
 
