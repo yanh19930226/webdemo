@@ -1,15 +1,164 @@
-﻿
-@{
-    Layout = null;
+﻿@model MenuSearch
+@section Styles {
+    <link href="~/lib/bootstrap-treetable/bootstrap-treetable-1.0.1.css" rel="stylesheet" />
+    <style>
+        .bootstrap-tree-table .treetable-box .treetable-tbody .treetable-expander {
+            width: 30px;
+        }
+
+        .ri-subtract-fill:before {
+            font-size: 1rem;
+        }
+
+        .ri-add-fill:before {
+            font-size: 1rem;
+        }
+    </style>
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">菜单管理</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="searchForm">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <input asp-for="@Model.Keyword" class="form-control" placeholder="菜单名" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="d-flex justify-content align-items-center gap-2">
+                                        <button type="button" class="btn btn-outline-primary add" title="添加菜单" data-css="modal-lg" data-src="@Url.Action("Create","Menu")?parentId=0">添加菜单</button>
+                                        <button type="button" class="btn btn-outline-primary" onclick="loadData()">查询</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped" id="tableid">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/bootstrap-treetable/bootstrap-treetable-1.0.1.js"></script>
+    <script type="text/javascript">
+        var treeTable = $('#tableid').bootstrapTreeTable({
+            method: "GET",
+            url: "@Url.Action("GetMenuList","Menu")",
+            ajaxParams: { Keyword: $("#Keyword").val() },
+            rightToolbar: "#rightToolbar",
+            expandColumn: 0,
+            expandAll: true, // 是否全部展开
+            striped: true, // 是否各行渐变色, 不建议使用
+            condensed: true, // 是否紧缩表格
+            columns: [{
+                title: '菜单名称',
+                field: 'menuName',
+                width: '150',
+                formatter: function (value, row, index) {
+                    return row.menuName;
+                }
+            },
+            {
+                field: 'sort',
+                title: '排序',
+                width: '150',
+                valign: "",
+                cssClass: '', // 新加的属性
+                visible: true
+            },
+            {
+                title: '操作',
+                cssClass: '',
+                formatter: function (value, row, index) {
+
+                    if (row.level != 3) {
+                        let actions = `
+                                                                      <div>
+                                                                             <button type="button" class="btn btn-primary" title="添加子菜单" data-css="modal-lg" data-src="/Menu/Create?parentId=` + row.id + `">添加子菜单</button>
+                                                                             <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
+                                                                             <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.level + `)">删除</button>
+                                                                      </div>
+                                                                    `;
+                        return actions;
+                    } else {
+                        let actions = `
+                                                                          <div>
+                                                                                         <button type="button" class="btn btn-secondary" title="修改" data-css="modal-lg" data-src="/Menu/Edit?id=`+ row.id + `">修改</button>
+                                                                                         <button type="button" class="btn btn-danger" onclick="deleteMenu(`+ row.id + `,'` + row.menuName + `',` + row.level + `)">删除</button>
+                                                                          </div>
+                                                                        `;
+                        return actions;
+                    }
+                }
+            }],
+            onLoadComplete: function () {
+            },
+            onLoadSuccess: function (data) {
+                console.log("onLoadSuccess");
+                return false;
+            },
+            onClickRow: function (row, $element) {
+                console.log("onClickRow", row);
+                console.log("element", $element);
+                return false;
+            }
+        });
+
+        var loadData = function () {
+            $('#tableid').bootstrapTreeTable('refresh', { Keyword: $("#Keyword").val() });
+        };
+
+        var deleteMenu = function (menuId, menuName, level) {
+            debugger;
+            let confirmmsg = "您确定要删除吗";
+            $.confirm(confirmmsg, function () {
+                $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("Delete", "Menu")?id=" + menuId,
+                    success: function (data) {
+                        if (data) {
+                            $.tipsOk("操作成功!");
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                        else {
+                            $.tipsError("删除失败!");
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            })
+        };
+
+        var change = function () {
+            $(".add").attr("data-src", "/Menu/Create?parentId=0");
+        };
+    </script>
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-</body>
-</html>

@@ -1,15 +1,64 @@
-﻿
+﻿@model Menu
 @{
     Layout = null;
 }
+<form id="addForm" asp-action="DoCreate" asp-controller="Menu" data-ajax-method="post" data-ajax="true" data-ajax-complete="completed">
+    <div class="modal-body">
+        <input type="hidden" asp-for="@Model.ParentId" />
+        <div class="mb-3">
+            <label asp-for="@Model.MenuName" class="form-label">名称</label>
+            <input asp-for="@Model.MenuName" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.MenuName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.MenuType" class="form-label">菜单类型</label>
+            <input asp-for="@Model.MenuType" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.MenuType" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Path" class="form-label">地址</label>
+            <input asp-for="@Model.Path" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.Path" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Icon" class="form-label">图标</label>
+            <input asp-for="@Model.Icon" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.Icon" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.AuthorityCode" class="form-label">权限值</label>
+            <input asp-for="@Model.AuthorityCode" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.AuthorityCode" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Sort" class="form-label">排序</label>
+            <input asp-for="@Model.Sort" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.Sort" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Status" class="form-label">是否显示</label>
+            <input asp-for="@Model.Status" type="text" class="form-control" autocomplete="off">
+            <span asp-validation-for="@Model.Status" class="text-danger"></span>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+</form>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-</body>
-</html>
+<script>
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+        } else {
+            $.tipsError(rv.message);
+        }
+    };
+</script>

@@ -17,16 +17,17 @@ namespace webdemo.Controllers
             return View(search);
         }
 
-
-        public IActionResult GetMenuPage(MenuSearch search)
+        public IActionResult GetMenuList(MenuSearch search)
         {
-            var result = _menuService.GetMenuPage(search);
+            var result = _menuService.GetMenuList(search);
             return Json(result);
         }
 
-        public IActionResult Create(Menu dto)
+        public IActionResult Create(long parentId)
         {
-            return PartialView(dto);
+            Menu menu = new Menu();
+            menu.ParentId = parentId;
+            return PartialView(menu);
         }
 
         [HttpPost]

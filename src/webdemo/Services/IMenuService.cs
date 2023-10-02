@@ -7,7 +7,7 @@ namespace webdemo.Services
     {
         Menu GetMenu(long id);
 
-        IPagedList<Menu> GetMenuPage(MenuSearch search);
+        List<Menu> GetMenuList(MenuSearch search);
 
         List<MenuTreeVo> GetMenuTree();
 

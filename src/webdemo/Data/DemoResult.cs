@@ -29,7 +29,7 @@
         /// <returns></returns>
         public void Success(string message = "")
         {
-            Message = message;
+            Message = string.IsNullOrEmpty(message)?"Success": message;
             Code = DemoResultCode.Succeed;
         }
         /// <summary>
@@ -40,7 +40,7 @@
         /// <returns></returns>
         public void Failed(string message = "")
         {
-            Message = message;
+            Message = string.IsNullOrEmpty(message) ? "Failed" : message;
             Code = DemoResultCode.Failed;
         }
         /// <summary>

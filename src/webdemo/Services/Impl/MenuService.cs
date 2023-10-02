@@ -1,7 +1,4 @@
-﻿using SqlSugar;
-using webdemo.Models.Domain.System;
-using webdemo.Models.Dto.Menu;
-using webdemo.Models.Vo.Category;
+﻿using webdemo.Models.Dto.Menu;
 using webdemo.Models.Vo.Menu;
 
 namespace webdemo.Services.Impl
@@ -43,14 +40,12 @@ namespace webdemo.Services.Impl
             return _dal.QueryByClause(c => c.Id == id);
         }
 
-        public IPagedList<Menu> GetMenuPage(MenuSearch search)
+        public List<Menu> GetMenuList(MenuSearch search)
         {
             var where = PredicateBuilder.True<Menu>()
-                         .WhereIf(true, p => p.IsDel == false);
-
-            var result = _dal.QueryListByClause(where);
-
-            return result.ToPagedList(search.PageIndex, search.PageSize);
+                         .WhereIf(true, p => p.IsDel == false)
+                         .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.MenuName.Contains(search.Keyword));
+            return _dal.QueryListByClause(where).ToList();
         }
 
         public List<MenuTreeVo> GetMenuTree()
@@ -64,11 +59,11 @@ namespace webdemo.Services.Impl
             DemoResult result = new DemoResult();
             if (_dal.Insert(menu) > 0)
             {
-                result.Success("添加成功");
+                result.Success();
             }
             else
             {
-                result.Failed("添加失败");
+                result.Failed();
             }
             return result;
         }
@@ -79,11 +74,11 @@ namespace webdemo.Services.Impl
 
             if (_dal.Update(menu))
             {
-                result.Success("修改成功");
+                result.Success();
             }
             else
             {
-                result.Failed("修改失败");
+                result.Failed();
             }
             return result;
         }
@@ -95,11 +90,11 @@ namespace webdemo.Services.Impl
             delete.IsDel = true;
             if (_dal.Update(delete))
             {
-                result.Success("删除成功");
+                result.Success();
             }
             else
             {
-                result.Failed("删除失败");
+                result.Failed();
             }
             return result;
         }

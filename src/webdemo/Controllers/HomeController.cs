@@ -1,7 +1,4 @@
-﻿using SqlSugar;
-using webdemo.Models.Domain.System;
-
-namespace webdemo.Controllers
+﻿namespace webdemo.Controllers
 {
     public class HomeController : Controller
     {

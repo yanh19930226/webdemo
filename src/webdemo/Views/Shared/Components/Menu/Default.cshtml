@@ -29,7 +29,7 @@
                 <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#@parent.Id" aria-expanded="false" aria-controls="@parent.Id" class="side-nav-link">
                         <i class="ri-map-pin-line"></i>
-                        <span> @parent.Name </span>
+                        <span> @parent.MenuName </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="@parent.Id">
@@ -39,7 +39,7 @@
                                 @foreach (var item in childs)
                                 {
                                     <li>
-                                        <a href="@Url.Content(item.Url)">@item.Name</a>
+                                        <a href="@Url.Content(item.Path)">@item.MenuName</a>
                                     </li>
                                 }
                             </ul>

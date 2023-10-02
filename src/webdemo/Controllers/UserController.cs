@@ -37,11 +37,11 @@ namespace webdemo.Controllers
             DemoResult result = new DemoResult();
             if (_dal.Insert(_mapper.Map<User>(dto)) > 0)
             {
-                result.Success("添加成功");
+                result.Success();
             }
             else
             {
-                result.Failed("添加失败");
+                result.Failed();
             }
             return Ok(result);
         }
@@ -57,11 +57,11 @@ namespace webdemo.Controllers
             DemoResult result = new DemoResult();
             if (_dal.Update(_mapper.Map<User>(dto)))
             {
-                result.Success("修改成功");
+                result.Success();
             }
             else
             {
-                result.Failed("修改失败");
+                result.Failed();
             }
 
             return Ok(result);
