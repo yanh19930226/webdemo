@@ -1,0 +1,86 @@
+﻿@model PagedList<Role>
+@if (Model.Count > 0)
+{
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="tech-companies-1" class="table table-bordered table-centered mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>角色名</th>
+                            <th>角色编码</th>
+                            <th>备注</th>
+                            <th>创建</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.RoleName</td>
+                                <td>@item.RoleCode</td>
+                                <td>@item.Remark</td>
+                                <td>@item.CreateTime</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary" title="修改" data-css="modal-lg" data-src="@Url.Action("Edit","Role")?Id=@item.Id">修改</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="Delete(@item.Id)">删除</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <mvcpager asp-model="@Model" ajax-enabled="true" ajax-update-target="table-container" ajax-method="post"
+                          page-index-parameter-name="PageIndex" tag-name="ul"
+                          last-page-text="尾页"
+                          first-page-text="首页"
+                          next-page-text="下一页"
+                          prev-page-text="上一页"
+                          maximum-page-index-items="8"
+                          class="justify-content-center pagination pagination-rounded mb-0"
+                          ajax-search-form="searchForm"
+                          current-pager-item-template='<li class="page-item active"><a class="page-link" href="javascript:void(0);">{0}</a></li>'
+                          disabled-pager-item-template='<li class="page-item disabled"><a class="page-link">{0}</a></li>'
+                          pager-item-template='<li class="page-item">{0}</li>' pager-item-css-class="page-link"
+                          page-index-box-id="inputPageIndex"
+                          go-to-button-id="btnGoto">
+                </mvcpager>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-12">
+        <div class="alert alert-warning text-center mb-0" role="alert">
+            暂无数据!
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    var Delete = function (id) {
+        $.confirm("您确定要删除吗？", function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("Delete", "Role")?Id=" + id,
+                success: function (data) {
+                    if (data) {
+                        $.tipsOk("操作成功!");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        $.tipsError("删除失败!");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        })
+    };
+</script>
+
+

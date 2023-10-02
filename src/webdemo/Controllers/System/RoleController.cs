@@ -17,13 +17,13 @@ namespace webdemo.Controllers.System
             return View(search);
         }
 
-        public IActionResult GetRoleList(RoleSearch search)
+        public IActionResult DoList(RoleSearch search)
         {
-            var result = _roleService.GetRoleList(search);
-            return Json(result);
+            var result = _roleService.GetRolePage(search);
+            return PartialView(result);
         }
 
-        public IActionResult Create(long parentId)
+        public IActionResult Create()
         {
             Role menu = new Role();
             return PartialView(menu);

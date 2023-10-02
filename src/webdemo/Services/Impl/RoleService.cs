@@ -70,5 +70,16 @@ namespace webdemo.Services.Impl
                          .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.RoleName.Contains(search.Keyword));
             return _dal.QueryListByClause(where).ToList();
         }
+
+        public IPagedList<Role> GetRolePage(RoleSearch search)
+        {
+            var where = PredicateBuilder.True<Role>()
+                         .WhereIf(true, p => p.IsDel == false)
+                         .WhereIf(!string.IsNullOrEmpty(search.Keyword), p => p.RoleName.Contains(search.Keyword));
+
+            var result = _dal.QueryListByClause(where).Select(p => _mapper.Map<Role>(p));
+
+            return result.ToPagedList(search.PageIndex, search.PageSize);
+        }
     }
 }

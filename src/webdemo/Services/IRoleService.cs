@@ -8,6 +8,8 @@ namespace webdemo.Services
 
         List<Role> GetRoleList(RoleSearch search);
 
+        IPagedList<Role> GetRolePage(RoleSearch search);
+
         DemoResult Create(Role menu);
 
         DemoResult Edit(Role menu);
