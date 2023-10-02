@@ -1,9 +1,4 @@
-﻿using Autofac;
-using SqlSugar;
-using webdemo.Data.Impl;
-using webdemo.Infrastructure.Utils;
-
-namespace webdemo
+﻿namespace webdemo
 {
     public class AutofacModuleRegister : Autofac.Module
     {

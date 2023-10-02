@@ -1,6 +1,4 @@
-﻿using webdemo.Infrastructure.Utils;
-
-namespace webdemo
+﻿namespace webdemo
 {
     /// <summary>
     /// SevicesExtension

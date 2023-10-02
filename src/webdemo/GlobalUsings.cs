@@ -29,6 +29,13 @@ global using webdemo.Models.Vo;
 global using webdemo.Models.Vo.User;
 global using webdemo.Services;
 global using Webdiyer.AspNetCore;
+global using Autofac;
+global using Autofac.Extensions.DependencyInjection;
+global using webdemo;
+global using SqlSugar;
+global using webdemo.Models.Domain.System;
+global using webdemo.Infrastructure.Utils;
+global using webdemo.Data.Impl;
 
 
 

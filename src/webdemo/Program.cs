@@ -1,7 +1,3 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using webdemo;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddConfig(builder.Configuration, builder.Environment);

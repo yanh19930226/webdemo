@@ -1,7 +1,4 @@
-﻿using SqlSugar;
-using webdemo.Models.Domain.System;
-
-namespace webdemo
+﻿namespace webdemo
 {
     public static class RegisterServiceExtensions
     {
@@ -88,14 +85,20 @@ namespace webdemo
                     {
                         Client.CodeFirst.InitTables(types.ToArray());
                     }
-                    User user = new User();
-                    user.UserName = "yh";
-                    user.Password = "yh";
-                    if (Client.Insertable(user).ExecuteCommand()>0)
-                    {
-                        Console.WriteLine("init success");
-                    }
+
+                    SeedData(Client);
                 }
+            }
+        }
+
+        private static void SeedData(ISqlSugarClient sqlSugarClient)
+        {
+            User user = new User();
+            user.UserName = "yh";
+            user.Password = "yh";
+            if (sqlSugarClient.Insertable(user).ExecuteCommand() > 0)
+            {
+                Console.WriteLine("init success");
             }
         }
     }
