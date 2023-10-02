@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace webdemo.Infrastructure.Utils
 {
@@ -23,6 +22,47 @@ namespace webdemo.Infrastructure.Utils
         }
 
         /// <summary>
+        /// 获取枚举特性集合
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetList(this Enum value)
+        {
+            List<string> list = new List<string>();
+            FieldInfo[] fieldinfo = value.GetType().GetFields();
+            foreach (FieldInfo item in fieldinfo)
+            {
+                object[] obj = item.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (obj != null && obj.Length != 0)
+                {
+                    DescriptionAttribute des = (DescriptionAttribute)obj[0];
+                    list.Add(des.Description);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取枚举特性集合
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<int, string> GetDictionary(this Enum value)
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            FieldInfo[] fieldinfo = value.GetType().GetFields();
+
+            foreach (FieldInfo item in fieldinfo)
+            {
+                object[] obj = item.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (obj != null && obj.Length != 0)
+                {
+                    DescriptionAttribute des = (DescriptionAttribute)obj[0];
+                    list.Add(item.GetValue(null).GetHashCode(), des.Description);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
         /// 数据转换为DateTime类型
         /// </summary>
         /// <param name="thisValue"></param>
@@ -35,6 +75,13 @@ namespace webdemo.Infrastructure.Utils
             return result;
         }
 
+        /// <summary>
+        /// ToJson
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public static string ToJson<T>(this T obj, JsonSerializerSettings settings = null)
         {
             if (settings == null)
@@ -59,6 +106,7 @@ namespace webdemo.Infrastructure.Utils
             //IsNullOrEmpty取反
             return !value.IsNullOrEmpty();
         }
+
         /// <summary>
         /// 判断null，null或0长度都返回true
         /// </summary>
