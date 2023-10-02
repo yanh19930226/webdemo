@@ -1,6 +1,6 @@
 ﻿using webdemo.Models.Dto.Menu;
 
-namespace webdemo.Controllers
+namespace webdemo.Controllers.System
 {
     public class MenuController : Controller
     {

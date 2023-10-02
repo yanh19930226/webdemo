@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace webdemo.Controllers
+﻿namespace webdemo.Controllers
 {
     public class ArticleController : Controller
     {

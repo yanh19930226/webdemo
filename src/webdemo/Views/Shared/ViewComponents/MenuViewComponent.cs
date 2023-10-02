@@ -11,7 +11,7 @@ namespace webdemo.Views.Shared.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var menus = _menuService.GetMenuList(new RoleSearch()).Where(p=>p.IsShow=true).ToList();
+            var menus = _menuService.GetMenuList(new MenuSearch()).Where(p=>p.IsShow=true).ToList();
             return View(menus);
         }
     }

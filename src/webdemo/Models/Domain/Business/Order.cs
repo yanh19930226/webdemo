@@ -1,4 +1,4 @@
-﻿namespace webdemo.Models.Domain
+﻿namespace webdemo.Models.Domain.Business
 {
     public partial class Order
     {

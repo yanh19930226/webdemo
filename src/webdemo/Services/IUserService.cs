@@ -1,4 +1,6 @@
-﻿namespace webdemo.Services
+﻿using webdemo.Models.Domain.Business;
+
+namespace webdemo.Services
 {
     public interface IUserService
     {

@@ -1,6 +1,6 @@
 ﻿using webdemo.Models.Dto.Role;
 
-namespace webdemo.Controllers
+namespace webdemo.Controllers.System
 {
     public class RoleController : Controller
     {

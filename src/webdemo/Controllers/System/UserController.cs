@@ -1,6 +1,6 @@
 ﻿using webdemo.Models.Domain.System;
 
-namespace webdemo.Controllers
+namespace webdemo.Controllers.System
 {
     public class UserController : Controller
     {
@@ -11,7 +11,7 @@ namespace webdemo.Controllers
         {
             _dal = dal;
             _mapper = mapper;
-            _userService= userService;
+            _userService = userService;
         }
 
         public IActionResult Index(UserSearch userSearch)
@@ -20,7 +20,7 @@ namespace webdemo.Controllers
             userSearch.EndDate = DateTime.Now;
             return View(userSearch);
         }
-        public IActionResult DoList(UserSearch userSearch) 
+        public IActionResult DoList(UserSearch userSearch)
         {
             var result = _userService.GetPageResult(userSearch);
             return PartialView(result);
