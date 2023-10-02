@@ -1,6 +1,4 @@
-﻿using webdemo.Models.Dto.Category;
-using webdemo.Models.Vo.Category;
-using webdemo.Models.Vo.Organization;
+﻿using webdemo.Models.Vo.Organization;
 namespace webdemo.Services.Impl
 {
     public class OrganizationService
@@ -44,17 +42,16 @@ namespace webdemo.Services.Impl
         {
             var cmdText = $@"
 WITH t AS (
-		SELECT Id, category_name, parent_id
-		FROM category WITH (NOLOCK)
-		WHERE Id = @Id
+		SELECT id, organization_name, parent_id
+		FROM organization WITH (NOLOCK)
+		WHERE id = @Id
 		UNION ALL
-		SELECT category.Id, category.category_name, category.parent_id
-		FROM category, t
-		WHERE category.parent_id = t.Id
+		SELECT organization.id, organization.organization_name, organization.parent_id
+		FROM organization, t
+		WHERE organization.parent_id = t.id
 	)
 SELECT *
-FROM t
-            ";
+FROM t";
             var categoryIdList = _sqlSugarClient.Ado.SqlQuery<long>(cmdText, new
             {
                 Id = id,
@@ -85,28 +82,27 @@ FROM t
             return _dal.QueryByClause(c => c.Id == id);
         }
 
-        public List<CategoryVo> GetOrganizationList()
+        public List<OrganizationVo> GetOrganizationList()
         {
             var queryText = string.Empty;
             var cmdText = $@"
-WITH RECURSIVE cte_child (service_id, id, category_name, parent_id, sort, status, LEVEL) AS (
-		SELECT service_id, id, category_name, parent_id, sort, status, 1 AS LEVEL
-		FROM category
+WITH RECURSIVE cte_child (organization_type, id, organization_name, parent_id,leader_id, sort, remark, level) AS (
+		SELECT organization_type, id, organization_name, parent_id,leader_id, sort, remark, 1 as level
+		FROM organization
 		WHERE parent_id = 0
 		UNION ALL
-		SELECT a.service_id, a.id, a.category_name, a.parent_id, a.sort
-			, a.status, b.level + 1
-		FROM category a
+		SELECT a.organization_type, a.id, a.organization_name, a.parent_id, a.sort,a.leader_id
+			, a.remark, b.level + 1
+		FROM organization a
 			INNER JOIN cte_child b ON a.parent_id = b.id
 	)
 SELECT *
 FROM cte_child
 WHERE 1=1
 {queryText}
-	AND status = 0
 ORDER BY sort DESC, id ASC";
 
-            var result = _sqlSugarClient.Ado.SqlQuery<CategoryVo>(cmdText, new
+            var result = _sqlSugarClient.Ado.SqlQuery<OrganizationVo>(cmdText, new
             {
             }).ToList();
             return result;
