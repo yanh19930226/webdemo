@@ -1,6 +1,4 @@
-﻿using Humanizer;
-using webdemo.Models.Domain.System;
-using webdemo.Models.Dto.Organization;
+﻿using webdemo.Models.Dto.Organization;
 
 namespace webdemo.Controllers.System
 {

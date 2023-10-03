@@ -1,6 +1,4 @@
-﻿using webdemo.Models.Domain.System;
-
-namespace webdemo.Controllers.System
+﻿namespace webdemo.Controllers.System
 {
     public class UserController : Controller
     {
