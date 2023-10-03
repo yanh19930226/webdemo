@@ -24,6 +24,7 @@
                                 <td>@item.CreateTime</td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" title="修改" data-css="modal-lg" data-src="@Url.Action("Edit","Role")?Id=@item.Id">修改</button>
+                                    <button type="button" class="btn btn-outline-info" title="权限" data-css="modal-lg" data-src="@Url.Action("Pemission","Role")?Id=@item.Id">权限</button>
                                     <button type="button" class="btn btn-outline-secondary" onclick="Delete(@item.Id)">删除</button>
                                 </td>
                             </tr>

@@ -1,15 +1,17 @@
-﻿using webdemo.Models.Dto.Organization;
+﻿using Humanizer;
+using webdemo.Models.Domain.System;
+using webdemo.Models.Dto.Organization;
 
 namespace webdemo.Controllers.System
 {
     public class OrganizationController : Controller
     {
         private IMapper _mapper;
-        private IOrganizationService _organizationService;
-        public OrganizationController(IMapper mapper, IOrganizationService organizationService)
+        private IOrganizationService _orgService;
+        public OrganizationController(IMapper mapper, IOrganizationService orgService)
         {
             _mapper = mapper;
-            _organizationService = organizationService;
+            _orgService = orgService;
         }
 
         public IActionResult Index(OrganizationSearch search)
@@ -19,36 +21,64 @@ namespace webdemo.Controllers.System
 
         public IActionResult GetOrganizationList(OrganizationSearch search)
         {
-            var result = _organizationService.GetOrganizationList(search);
+            var result = _orgService.GetOrganizationList(search);
             return Json(result);
         }
 
         public IActionResult Create()
         {
-            Organization organization = new Organization();
-            return PartialView(organization);
+            Organization org = new Organization();
+            return PartialView(org);
         }
 
         [HttpPost]
         public IActionResult DoCreate(Organization dto)
         {
-            return Ok(_organizationService.Create(dto));
+
+            DemoResult result = new DemoResult();
+            if (_orgService.Create(dto))
+            {
+                result.Success();
+            }
+            else
+            {
+                result.Failed();
+            }
+            return Ok(result);
         }
 
         public IActionResult Edit(long id)
         {
-            var edit = _organizationService.GetOrganization(id);
+            var edit = _orgService.GetOrganization(id);
             return View(edit);
         }
         [HttpPost]
         public IActionResult DoEdit(Organization dto)
         {
-            return Ok(_organizationService.Edit(dto));
+            DemoResult result = new DemoResult();
+            if (_orgService.Edit(dto))
+            {
+                result.Success();
+            }
+            else
+            {
+                result.Failed();
+            }
+            return Ok(result);
         }
 
         public IActionResult Delete(long id)
         {
-            return Ok(_organizationService.Delete(id));
+            DemoResult result = new DemoResult();
+            if (_orgService.Delete(id))
+            {
+                result.Success();
+            }
+            else
+            {
+                result.Failed();
+            }
+            return Ok(result);
         }
     }
 }

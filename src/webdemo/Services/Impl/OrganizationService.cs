@@ -2,12 +2,16 @@
 using webdemo.Models.Vo.Organization;
 namespace webdemo.Services.Impl
 {
-    public class OrganizationService
+    public class OrganizationService: IOrganizationService
     {
         private IMapper _mapper;
         private readonly SqlSugarScope _sqlSugarClient;
         private readonly IBaseRepository<Organization> _dal;
-        public OrganizationService(IMapper mapper, SqlSugarScope sqlSugarClient, IBaseRepository<Organization> dal)
+        public OrganizationService(
+            IMapper mapper, 
+            SqlSugarScope sqlSugarClient, 
+            IBaseRepository<Organization> dal
+            )
         {
             _mapper = mapper;
             _sqlSugarClient = sqlSugarClient;
@@ -53,11 +57,11 @@ WITH t AS (
 	)
 SELECT *
 FROM t";
-            var categoryIdList = _sqlSugarClient.Ado.SqlQuery<long>(cmdText, new
+            var idList = _sqlSugarClient.Ado.SqlQuery<long>(cmdText, new
             {
                 Id = id,
             });
-            return categoryIdList;
+            return idList;
         }
 
         /// <summary>
@@ -115,48 +119,21 @@ ORDER BY sort DESC, id ASC";
             return GetChildren(result, 0);
         }
 
-        public DemoResult Create(Organization organization)
+        public bool Create(Organization organization)
         {
-            DemoResult result = new DemoResult();
-            if (_dal.Insert(organization) > 0)
-            {
-                result.Success();
-            }
-            else
-            {
-                result.Failed();
-            }
-            return result;
+            return _dal.Insert(organization) > 0;
         }
 
-        public DemoResult Edit(Organization organization)
+        public bool Edit(Organization organization)
         {
-            DemoResult result = new DemoResult();
-            if (_dal.Update(organization))
-            {
-                result.Success();
-            }
-            else
-            {
-                result.Failed();
-            }
-            return result;
+            return _dal.Update(organization);
         }
 
-        public DemoResult Delete(long id)
+        public bool Delete(long id)
         {
-            DemoResult result = new DemoResult();
             var idList = GetChildIdList(id);
             var intRes = Delete(idList);
-            if (intRes > 0)
-            {
-                result.Success();
-            }
-            else
-            {
-                result.Failed();
-            }
-            return result;
+            return intRes > 0;
         }
     }
 }

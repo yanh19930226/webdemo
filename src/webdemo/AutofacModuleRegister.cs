@@ -12,7 +12,7 @@
             //注册BaseRepository
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>)).InstancePerLifetimeScope();
             //注册Services
-            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly()).Where(t => t.Name.EndsWith("Services")).AsSelf()
+            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly()).Where(t => t.Name.EndsWith("Service")).AsSelf()
             .AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
         }
 

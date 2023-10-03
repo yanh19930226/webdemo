@@ -11,10 +11,10 @@ namespace webdemo.Services
 
         List<OrganizationTreeVo> GetOrganizationTree();
 
-        DemoResult Create(Organization organization);
+        bool Create(Organization organization);
 
-        DemoResult Edit(Organization organization);
+        bool Edit(Organization organization);
 
-        DemoResult Delete(long id);
+        bool Delete(long id);
     }
 }

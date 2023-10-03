@@ -79,7 +79,18 @@
                 field: 'organizationName',
                 width: '150',
                 formatter: function (value, row, index) {
-                    return row.organizationName;
+                    return row.menuName;
+                }
+            },
+            {
+                field: 'organizationType',
+                title: '机构类型',
+                width: '150',
+                valign: "",
+                cssClass: '',
+                visible: true,
+                formatter: function (value, row, index) {
+                    
                 }
             },
             {
@@ -94,14 +105,16 @@
                 title: '操作',
                 cssClass: '',
                 formatter: function (value, row, index) {
+               
                         let actions = `
                                                                               <div>
-                                                                                     <button type="button" class="btn btn-outline-primary" title="添加" data-css="modal-lg" data-src="/Organization/Create?parentId=` + row.id + `">添加</button>
-                                                                                     <button type="button" class="btn btn-outline-secondary" title="修改" data-css="modal-lg" data-src="/Organization/Edit?id=`+ row.id + `">修改</button>
-                                                                                     <button type="button" class="btn btn-outline-danger" onclick="deleteOrganization(`+ row.id + `,'` + row.organizationName + `',` + row.organizationType + `)">删除</button>
+                                                                                                     <button type="button" class="btn btn-outline-primary" title="添加子级" data-css="modal-lg" data-src="/Organization/Create?parentId=` + row.id + `">添加子级</button>
+                                                                                                     <button type="button" class="btn btn-outline-secondary" title="修改" data-css="modal-lg" data-src="/Organization/Edit?id=`+ row.id + `">修改</button>
+                                                                                                     <button type="button" class="btn btn-outline-danger" onclick="deleteItem(`+ row.id + `,'` + row.organizationName + `',` + row.organizationType + `)">删除</button>
                                                                               </div>
                                                                             `;
                         return actions;
+                   
                 }
             }],
             onLoadComplete: function () {
@@ -121,7 +134,7 @@
             $('#tableid').bootstrapTreeTable('refresh', { Keyword: $("#Keyword").val() });
         };
 
-        var deleteOrganization = function (organizationId, organizationName, organizationType) {
+        var deleteItem = function (organizationId, organizationName, organizationType) {
             debugger;
             let confirmmsg = "您确定要删除吗";
             $.confirm(confirmmsg, function () {
