@@ -78,5 +78,33 @@ namespace webdemo.Infrastructure.Extension
 
             return list;
         }
+
+        /// <summary>
+        /// 获取机构类型
+        /// </summary>
+        /// <returns></returns>
+        public static List<SelectListItem> GetOrganizationTypeList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>()
+            {
+                 new SelectListItem()
+                {
+                    Value = "1",
+                    Text = "集团"
+                },
+                new SelectListItem()
+                {
+                   Value = "2",
+                   Text = "公司"
+                },
+                new SelectListItem()
+                {
+                   Value = "3",
+                   Text = "部门"
+                }
+            };
+
+            return list;
+        }
     }
 }
