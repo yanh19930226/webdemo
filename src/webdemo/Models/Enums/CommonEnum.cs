@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace webdemo.Models.Enums
 {
@@ -55,7 +51,7 @@ namespace webdemo.Models.Enums
     /// </summary>
     public enum 服务来源
     {
-        Douyin,
-        Xiaohongshu
+        Douyin=1,
+        Xiaohongshu=2
     }
 }

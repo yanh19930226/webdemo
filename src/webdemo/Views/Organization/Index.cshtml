@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="d-flex justify-content align-items-center gap-2">
-                                        <button type="button" class="btn btn-outline-primary add" title="添加机构" data-css="modal-lg" data-src="@Url.Action("Create","Organization")?parentId=0">添加机构</button>
+                                        <button type="button" class="btn btn-outline-primary add" title="添加" data-css="modal-lg" data-src="@Url.Action("Create","Organization")?parentId=0">添加</button>
                                         <button type="button" class="btn btn-outline-primary" onclick="loadData()">查询</button>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-striped" id="tableid">
+                        <table class="table table-striped" id="list">
                         </table>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 @section Scripts{
     <script src="~/lib/bootstrap-treetable/bootstrap-treetable-1.0.1.js"></script>
     <script type="text/javascript">
-        var treeTable = $('#tableid').bootstrapTreeTable({
+        var treeTable = $('#list').bootstrapTreeTable({
             method: "GET",
             url: "@Url.Action("GetOrganizationList","Organization")",
             ajaxParams: { Keyword: $("#Keyword").val() },
@@ -79,7 +79,7 @@
                 field: 'organizationName',
                 width: '150',
                 formatter: function (value, row, index) {
-                    return row.menuName;
+                    return row.organizationName;
                 }
             },
             {
@@ -131,7 +131,7 @@
         });
 
         var loadData = function () {
-            $('#tableid').bootstrapTreeTable('refresh', { Keyword: $("#Keyword").val() });
+            $('#list').bootstrapTreeTable('refresh', { Keyword: $("#Keyword").val() });
         };
 
         var deleteItem = function (organizationId, organizationName, organizationType) {

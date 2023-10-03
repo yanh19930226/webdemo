@@ -23,12 +23,13 @@
         /// </summary>
         public long? LeaderId { get; set; }
         /// <summary>
-        /// 排序号
-        /// </summary>
-        public Int32 Sort { get; set; }
-        /// <summary>
         /// 备注
         /// </summary>
         public String Remark { get; set; }
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public Int32 Sort { get; set; }
+        
     }
 }
