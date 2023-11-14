@@ -20,7 +20,7 @@ Array.prototype.remove = function(dx) {
 //callBackFunc 回调 
 //是否异步async 默认true
 //是否开启遮罩  默认true
-$.AjaxServer = function(webFileUrl, jsonArgs, callBackFunc, async, isTip) {
+$.AjaxServer = function(webFileUrl,method, jsonArgs, callBackFunc, async, isTip) {
     if (isTip == null) {
         isTip = false;
     }
@@ -28,7 +28,8 @@ $.AjaxServer = function(webFileUrl, jsonArgs, callBackFunc, async, isTip) {
         $.ajax({
             url: webFileUrl,
             data: jsonArgs,
-            type: 'Post',
+            type: method,
+            /*type: 'Post',*/
             async: false,
             cache: false,
             contentType: 'application/json;charset=UTF-8',
@@ -157,6 +158,11 @@ $(function() {
             if (title == undefined) {
                 title = "对话框";
             }
+            var method = $(this).attr("data-method");
+            if (method == undefined) {
+                method = 'Post';
+            }
+
             var inputid = $(this).attr("data-input");
             var inputval = $(this);
             if (inputid != undefined) {
@@ -166,7 +172,7 @@ $(function() {
                     Acontent.close();
                 };
             }
-            $.AjaxServer($(this).attr("data-src"), {}, function(content) {
+            $.AjaxServer($(this).attr("data-src"), method, {}, function(content) {
                 Acontent = $.scojs_modal({
                     title: title,
                     content: content
@@ -208,6 +214,11 @@ function dataSrc() {
                 css = '';
             }
 
+            var method = $(this).attr("data-method");
+            if (method == undefined) {
+                method = 'Post';
+            }
+
             var inputid = $(this).attr("data-input");
             var inputval = $(this);
             if (inputid != undefined) {
@@ -217,7 +228,7 @@ function dataSrc() {
                     Acontent.close();
                 };
             }
-            $.AjaxServer($(this).attr("data-src"), {}, function(content) {
+            $.AjaxServer($(this).attr("data-src"), method, {}, function(content) {
                 Acontent = $.scojs_modal({
                     title: title,
                     cssClass:css,
